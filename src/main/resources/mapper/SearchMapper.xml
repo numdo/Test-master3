@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.testsearch.mapper.SearchMapper">
+
+    <resultMap id="DataResultMap" type="Data">
+        <id     column="Identifier"                     property="Identifier"/>
+        <result column="Objects"                        property="Objects"/>
+        <result column="Title"                          property="Title"/>
+        <result column="Title_Ru"                       property="Title_Ru"/>
+        <result column="Subject"                        property="Subject"/>
+        <result column="Subject_Ru"                     property="Subject_Ru"/>
+        <result column="Description"                    property="Description"/>
+        <result column="Description_Ru"                 property="Description_Ru"/>
+        <result column="Institute_Identifier"           property="Institute_Identifier"/>
+        <result column="Language"                       property="Language"/>
+        <result column="Language_Ru"                    property="Language_Ru"/>
+        <result column="Temporary"                      property="Temporary"/>
+        <result column="Temporary_Ru"                   property="Temporary_Ru"/>
+        <result column="Place"                          property="Place"/>
+        <result column="Place_Ru"                       property="Place_Ru"/>
+        <result column="Current_location"               property="Current_location"/>
+        <result column="Current_location_Ru"            property="Current_location_Ru"/>
+        <result column="Object_Etc"                     property="Object_Etc"/>
+        <result column="Object_Etc_Ru"                  property="Object_Etc_Ru"/>
+        <result column="Object_Type"                    property="Object_Type"/>
+        <result column="Object_Type_Ru"                 property="Object_Type_Ru"/>
+        <result column="Object_Size"                    property="Object_Size"/>
+        <result column="Object_Size_Ru"                 property="Object_Size_Ru"/>
+        <result column="Object_Material"                property="Object_Material"/>
+        <result column="Object_Material_Ru"             property="Object_Material_Ru"/>
+        <result column="Raw_Data_Type"                  property="Raw_Data_Type"/>
+        <result column="Raw_Data_Type_Ru"               property="Raw_Data_Type_Ru"/>
+        <result column="Digital_Data_Type"              property="Digital_Data_Type"/>
+        <result column="Digital_Data_Type_Ru"           property="Digital_Data_Type_Ru"/>
+        <result column="File_Extension"                 property="File_Extension"/>
+        <result column="Coverage"                       property="Coverage"/>
+        <result column="Coverage_Ru"                    property="Coverage_Ru"/>
+        <result column="Creator"                        property="Creator"/>
+        <result column="Creator_Ru"                     property="Creator_Ru"/>
+        <result column="Participants"                   property="Participants"/>
+        <result column="Participants_Ru"                property="Participants_Ru"/>
+        <result column="Publisher"                      property="Publisher"/>
+        <result column="Publisher_Ru"                   property="Publisher_Ru"/>
+        <result column="Provider"                       property="Provider"/>
+        <result column="Provider_Ru"                    property="Provider_Ru"/>
+        <result column="Providing_Institution"          property="Providing_Institution"/>
+        <result column="Providing_Institution_Ru"       property="Providing_Institution_Ru"/>
+        <result column="Provider_Country"               property="Provider_Country"/>
+        <result column="Provider_Country_Ru"            property="Provider_Country_Ru"/>
+        <result column="Collection_Name"                property="Collection_Name"/>
+        <result column="Collection_Name_Ru"             property="Collection_Name_Ru"/>
+        <result column="Source"                         property="Source"/>
+        <result column="Source_Ru"                      property="Source_Ru"/>
+        <result column="IsPartOf"                       property="IsPartOf"/>
+        <result column="IsPartOf_Ru"                    property="IsPartOf_Ru"/>
+        <result column="Links"                          property="Links"/>
+        <result column="Rights_Statement_Media"         property="Rights_Statement_Media"/>
+        <result column="Rights"                         property="Rights"/>
+        <result column="Rights_Ru"                      property="Rights_Ru"/>
+        <result column="Data_Code"                      property="Data_Code"/>
+        <result column="userId"                         property="userId"/>
+        <result column="Created_Time"                   property="Created_Time"/>
+        <result column="Updated_Time"                   property="Updated_Time"/>
+        <result column="Latitude"                       property="Latitude"/>
+        <result column="Longitude"                      property="Longitude"/>
+
+        <collection property="fileList" javaType="List" ofType="FileDto">
+            <id column="fileIdx"                   property="fileIdx"/>
+            <result   column="fileOriginalName"          property="fileOriginalName"/>
+            <result column="fileNewName"             property="fileNewName"/>
+            <result column="filePath"                property="filePath"/>
+            <result column="fileSize"                property="fileSize"/>
+        </collection>
+    </resultMap>
+
+
+
+
+    <!-- 통계 : Providing_Institution별 등록개수 en -->
+    <select id="getPICntList" resultType="map">
+        SELECT
+            Providing_Institution,
+            COUNT(Providing_Institution) AS CNT
+        FROM
+            `data`
+        GROUP BY Providing_Institution;
+
+    </select>
+
+
+    <!-- 통계 : Providing_Institution_Ru별 등록개수 ru -->
+    <select id="getPICntList_ru" resultType="map">
+        SELECT
+            Providing_Institution_Ru,
+            COUNT(Providing_Institution_Ru) AS CNT
+        FROM
+            `data`
+        GROUP BY Providing_Institution_Ru;
+
+    </select>
+
+
+
+    <select id="getDataCode" resultType="String">
+        select
+            substring(MAX(CAST(SUBSTRING_INDEX(Identifier,'-',-1) AS UNSIGNED))+1000001,2)
+        from
+            `data`
+    </select>
+
+
+
+    <select id="getRightStatementMedia" resultType="map">
+        SELECT
+            Rights_Statement_Media,
+            COUNT(Rights_Statement_Media) AS R_Cnt
+        FROM
+            `data`
+        GROUP BY Rights_Statement_Media ORDER BY R_Cnt DESC;
+    </select>
+
+
+
+    <!-- select box 선택별 data 검색 -->
+    <select id="getSearchBySelectList_back_up" parameterType="map" resultType="map" resultMap="DataResultMap">
+        SELECT
+        d.Title,
+        d.Subject,
+        d.Description,
+        d.Identifier,
+        d.Object_Type,
+        d.Object_Size,
+        d.Digital_Data_Type,
+        d.File_Extension,
+        d.Rights_Statement_Media,
+        d.Providing_Institution,
+        d.Data_Code
+        FROM
+        `data` AS d
+
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="searchKey != null and searchKey !='' and searchValue != ''">
+                AND ${searchKey} LIKE CONCAT('%', #{searchValue}, '%')
+            </if>
+            <if test="Providing_Institution != null and Providing_Institution !='' and Providing_Institution != ''">
+                /*AND Providing_Institution=${Providing_Institution}*/
+                AND Providing_Institution='National Fine Arts Museum'
+            </if>
+            <if test="Rights_Statement_Media != null and Rights_Statement_Media !='' and Rights_Statement_Media != ''">
+                AND Rights_Statement_Media=${Rights_Statement_Media}
+            </if>
+            <if test="Digital_Data_Type != null and Digital_Data_Type !='' and Digital_Data_Type != ''">
+                AND Digital_Data_Type=${Digital_Data_Type}
+            </if>
+            <if test="File_Extension != null and File_Extension !='' and File_Extension != ''">
+                AND File_Extension=${File_Extension}
+            </if>
+        </trim>
+        ;
+    </select>
+
+
+    <!-- select box 선택별 data 검색 : en -->
+    <select id="getSearchBySelectList" parameterType="map" resultMap="DataResultMap">
+        SELECT
+        d.Title,
+        d.Subject,
+        d.Description,
+        d.Identifier,
+        d.Object_Type,
+        d.Object_Size,
+        d.Digital_Data_Type,
+        d.File_Extension,
+        d.Rights_Statement_Media,
+        d.Providing_Institution,
+        d.Data_Code,
+        tf.fileIdx,
+        tf.filePath,
+        tf.fileOriginalName
+        FROM
+        `data` AS d
+        INNER JOIN
+        `tb_file_control` AS tfc
+        ON
+        d.Data_Code = tfc.referenceCode
+        INNER JOIN
+        `tb_file` AS tf
+        ON
+        tfc.fileIdx = tf.fileIdx
+        where 1=1
+        <if test="providingInstitutionList != null">
+            AND d.Providing_Institution in
+            <foreach collection="providingInstitutionList" item="providingInstitution" open="(" close=")" separator=",">
+                #{providingInstitution}
+            </foreach>
+        </if>
+        <if test="rightsStatementMediaList != null">
+            AND d.Rights_Statement_Media in
+            <foreach collection="rightsStatementMediaList" item="rightsStatementMedia" open="(" close=")" separator=",">
+                #{rightsStatementMedia}
+            </foreach>
+        </if>
+        <if test="objectTypeList != null">
+            AND d.Object_Type in
+            <foreach collection="objectTypeList" item="objectType" open="(" close=")" separator=",">
+                #{objectType}
+            </foreach>
+        </if>
+        <if test="digitalDateTypeList != null">
+            AND d.Digital_Data_Type in
+            <foreach collection="digitalDateTypeList" item="digitalDateType" open="(" close=")" separator=",">
+                #{digitalDateType}
+            </foreach>
+        </if>
+        <if test="fileExtensionList != null">
+            AND d.File_Extension in
+            <foreach collection="fileExtensionList" item="fileExtension" open="(" close=")" separator=",">
+                #{fileExtension}
+            </foreach>
+        </if>
+        ;
+    </select>
+
+
+
+    <!-- select box 선택별 data 검색 : ru-->
+    <select id="getSearchBySelectList_ru" parameterType="map" resultMap="DataResultMap">
+        SELECT
+        d.Title_Ru,
+        d.Subject_Ru,
+        d.Description_Ru,
+        d.Identifier,
+        d.Object_Type_Ru,
+        d.Object_Size_Ru,
+        d.Digital_Data_Type_Ru,
+        d.File_Extension,
+        d.Rights_Statement_Media,
+        d.Providing_Institution_Ru,
+        d.Data_Code,
+        tf.fileIdx,
+        tf.filePath,
+        tf.fileOriginalName
+        FROM
+        `data` AS d
+        INNER JOIN
+        `tb_file_control` AS tfc
+        ON
+        d.Data_Code = tfc.referenceCode
+        INNER JOIN
+        `tb_file` AS tf
+        ON
+        tfc.fileIdx = tf.fileIdx
+        where 1=1
+        <if test="providingInstitutionList != null">
+            AND d.Providing_Institution_Ru in
+            <foreach collection="providingInstitutionList" item="providingInstitution" open="(" close=")" separator=",">
+                #{providingInstitution}
+            </foreach>
+        </if>
+        <if test="rightsStatementMediaList != null">
+            AND d.Rights_Statement_Media in
+            <foreach collection="rightsStatementMediaList" item="rightsStatementMedia" open="(" close=")" separator=",">
+                #{rightsStatementMedia}
+            </foreach>
+        </if>
+        <if test="objectTypeList != null">
+            AND d.Object_Type_Ru in
+            <foreach collection="objectTypeList" item="objectType" open="(" close=")" separator=",">
+                #{objectType}
+            </foreach>
+        </if>
+        <if test="digitalDateTypeList != null">
+            AND d.Digital_Data_Type_Ru in
+            <foreach collection="digitalDateTypeList" item="digitalDateType" open="(" close=")" separator=",">
+                #{digitalDateType}
+            </foreach>
+        </if>
+        <if test="fileExtensionList != null">
+            AND d.File_Extension in
+            <foreach collection="fileExtensionList" item="fileExtension" open="(" close=")" separator=",">
+                #{fileExtension}
+            </foreach>
+        </if>
+        ;
+    </select>
+
+
+
+    <!-- Data_Code로 data 상세 검색 -->
+    <select id="getDataSearchDetailList" resultMap="DataResultMap">
+        SELECT
+            d.Identifier,
+            d.Title,
+            d.Title_Ru,
+            d.Subject,
+            d.Subject_Ru,
+            d.Description,
+            d.Description_Ru,
+            d.Institute_Identifier,
+            d.Language,
+            d.Language_Ru,
+            d.Temporary,
+            d.Temporary_Ru,
+            d.Place,
+            d.Place_Ru,
+            d.Current_location,
+            d.Current_location_Ru,
+            d.Object_Type,
+            d.Object_Type_Ru,
+            d.Object_Size,
+            d.Object_Size_Ru,
+            d.Object_Material,
+            d.Object_Material_Ru,
+            d.Object_Etc,
+            d.Object_Etc_Ru,
+            d.Digital_Data_Type,
+            d.Digital_Data_Type_Ru,
+            d.File_Extension,
+            d.Coverage,
+            d.Coverage_Ru,
+            d.Creator,
+            d.Creator_Ru,
+            d.Participants,
+            d.Participants_Ru,
+            d.Publisher,
+            d.Publisher_Ru,
+            d.Provider,
+            d.Provider_Ru,
+            d.Providing_Institution,
+            d.Providing_Institution_Ru,
+            d.Provider_Country,
+            d.Provider_Country_Ru,
+            d.Latitude,
+            d.Longitude,
+            d.Collection_Name,
+            d.Collection_Name_Ru,
+            d.Source,
+            d.Source_Ru,
+            d.IsPartOf,
+            d.IsPartOf_Ru,
+            d.Links,
+            d.Rights_Statement_Media,
+            d.Rights,
+            d.Rights_Ru,
+            d.Data_Code,
+            d.Created_Time,
+            d.Updated_Time,
+            f.fileIdx,
+            f.filepath,
+            SUBSTRING_INDEX(f.fileOriginalName, '.',1)
+        FROM
+            `data` AS d
+                LEFT JOIN
+            `tb_file_control` AS fc
+            ON
+                d.Data_Code = fc.referenceCode
+                LEFT JOIN
+            `tb_file` AS f
+            ON
+                fc.fileIdx = f.fileIdx
+        WHERE
+            d.Data_Code = #{Data_Code};
+
+    </select>
+
+
+    <!-- data 검색 개수 -->
+    <select id="countSearchData" parameterType="map" resultType="int">
+        /* SELECT COUNT(c.Description + c.Title + c.Identifier + c.Providing_Institution) AS cnt */
+        SELECT COUNT(c.Description) AS cnt
+        FROM(
+                SELECT
+                    d.Title,
+                    d.Subject,
+                    d.Description,
+                    d.Identifier,
+                    d.Object_Type,
+                    d.Object_Size,
+                    d.Digital_Data_Type,
+                    d.File_Extension,
+                    d.Rights_Statement_Media,
+                    d.Providing_Institution
+                FROM
+                    `data` AS d
+                WHERE
+                    Identifier LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    Title LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    Subject LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    Description LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    Temporary LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    Place LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    Current_location LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    Object_Etc LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    Object_Type LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    Object_Material LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    Raw_Data_Type LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    Digital_Data_Type LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    `Coverage` LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    `Creator` LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    `Participants` LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    `Publisher` LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    `Provider` LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    `Providing_Institution` LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    `Provider_Country` LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    `Collection_Name` LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    `Source` LIKE CONCAT('%', #{searchValue}, '%')
+                    OR
+                    `IsPartOf` LIKE CONCAT('%', #{searchValue}, '%')
+            ) AS c;
+
+    </select>
+
+    <!-- data 검색 -->
+    <select id="getDataSearchList" parameterType="map" resultMap="DataResultMap">
+        SELECT
+        d.Title,
+        d.Title_Ru,
+        d.Subject,
+        d.Subject_Ru,
+        d.Description,
+        d.Description_Ru,
+        d.Identifier,
+        d.Providing_Institution,
+        d.Providing_Institution_Ru,
+        d.Object_Type,
+        d.Object_Type_Ru,
+        d.Object_Size,
+        d.Object_Size_Ru,
+        d.Created_Time,
+        d.Data_Code,
+        d.Latitude,
+        d.Longitude,
+        tf.fileIdx,
+        tf.filePath,
+        tf.fileOriginalName
+        FROM
+        `data` AS d
+        INNER JOIN
+        `tb_file_control` AS tfc
+        ON
+        d.Data_Code = tfc.referenceCode
+        INNER JOIN
+        `tb_file` AS tf
+        ON
+        tfc.fileIdx = tf.fileIdx
+
+        WHERE
+            Identifier LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Title LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Title_Ru LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Subject LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Subject_Ru LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Description LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Description_Ru LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Temporary LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Temporary_Ru LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Place LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Place_Ru LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Current_location LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Current_location_Ru LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Object_Etc LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Object_Etc_Ru LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Object_Type LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Object_Type_Ru LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Object_Material LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Object_Material_Ru LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Raw_Data_Type LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Raw_Data_Type_Ru LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Digital_Data_Type LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            Digital_Data_Type_Ru LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Coverage` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Creator` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Coverage_Ru` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Participants` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Participants_Ru` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Publisher` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Publisher_Ru` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Provider` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Provider_Ru` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Providing_Institution` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Providing_Institution_Ru` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Provider_Country` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Provider_Country_Ru` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Collection_Name` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Collection_Name_Ru` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Source` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `Source_Ru` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `IsPartOf` LIKE CONCAT('%', #{searchValue}, '%')
+           OR
+            `IsPartOf_Ru` LIKE CONCAT('%', #{searchValue}, '%')
+        ;
+    </select>
+
+
+    <!-- data 목록 조회 -->
+    <select id="getDataList" resultMap="DataResultMap">
+        SELECT
+            d.Title,
+            d.Identifier,
+            d.Description,
+            d.Object_Type,
+            d.Created_Time,
+            d.Data_Code,
+            d.Providing_Institution,
+            tf.fileIdx,
+            tf.filePath,
+            tf.fileOriginalName
+        FROM
+            `data` AS d
+                INNER JOIN
+            `tb_file_control` AS tfc
+            ON
+                d.Data_Code = tfc.referenceCode
+                INNER JOIN
+            `tb_file` AS tf
+            ON
+                tfc.fileIdx = tf.fileIdx;
+    </select>
+
+
+</mapper>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+    <th:block th:fragment="JSFragment">
+      <script th:src="@{/assets/js/vendor/jquery-1.11.2.min.js}"></script>
+      <script th:src="@{/assets/js/vendor/bootstrap.min.js}"></script>
+
+      <script th:src="@{/assets/js/jquery.easing.1.3.js}"></script>
+      <script th:src="@{/assets/js/masonry/masonry.min.js}"></script>
+      <script type="text/javascript">
+        $('.mixcontent').masonry();
+      </script>
+
+      <script th:src="@{/assets/js/jquery.sliderPro.min.js}"></script>
+      <script type="text/javascript">
+        $(document).ready(function ($) {
+          $('#example3').sliderPro({
+            width: 960,
+            height: 200,
+            fade: true,
+            arrows: false,
+            buttons: true,
+            fullScreen: false,
+            shuffle: true,
+            smallSize: 500,
+            mediumSize: 1000,
+            largeSize: 3000,
+            thumbnailArrows: true,
+            autoplay: false,
+            thumbnailsContainerSize: 960
+
+          });
+        });
+      </script>
+      <script th:src="@{/assets/js/plugins.js}"></script>
+      <script th:src="@{/assets/js/main.js}"></script>
+    </th:block>
+
+  </body>
+
+</html>

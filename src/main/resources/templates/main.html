@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>KGZ TEST</title>
+        <link rel="stylesheet" type="text/css" href="css/base.css"/>
+        <link rel="stylesheet" type="text/css" href="css/layout.css"/>
+        <link rel="stylesheet" type="text/css" href="css/main.css"/>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/xpressengine/xeicon@1.0.4/xeicon.min.css">
+        <link rel="stylesheet" type="text/css" href="css/swiper.css?ver=210618">
+        <script type="text/javascript" src="js/jquery.min.1.11.0.js"></script>
+        <script type="text/javascript" src="js/slick.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/swiper.js?ver=210618"></script>
+    </head>
+    <style>
+        footer {
+            margin: 0;
+        }
+        .pTxt{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            height: 1.6em;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+
+    </style>
+    <body>
+        <div class="wrap">
+            <header>
+                <div class="inner">
+                    <p class="logo">K-CRMS<span>KYRGYZ CULTURAL RESOURCE MANAGEMENT SYSTEM</span></p>
+                    <div class="lnb">
+                        <ul>
+                            <li><a th:href="@{/main}">HOME</a></li>
+                            <li><a th:href="@{/test/dataSearchResult?searchValue=}">Collection</a></li>
+                            <li th:if="${session.SEMAIL != null}"><a th:onclick="showTotalStatistics_Popup()" style="cursor:pointer">Statistics</a></li>
+                            <li th:if="${session.SEMAIL == null}"><a th:href="@{/user/login}">Log in</a></li>
+                            <li th:unless="${session.SEMAIL == null}"><a th:href="@{/user/logout}">Log out</a></li>
+                            <li th:if="${session.SEMAIL == null}" ><a th:href="@{/user/join}">Join</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            <div id="container">
+                <div class="mainContent">
+                    <div class="search-wide">
+                        <div class="area">
+                            <input type="text" class="search-bar" name="searchValue"
+                                   placeholder="Please enter a search keyword.">
+                            <button type="submit" class="btn"><i class="xi-search"></i>Search</button>
+                        </div>
+                    </div>
+                    <div class="main-visual">
+                        <div class="swiper visual-slider">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="vs-txt">
+                                        <h2><img src="img/main/kgz_main1.jpg" style="height: 437px;"/></h2>
+                                        <div class="txtA">
+                                            <div class="area">
+                                                <p class="vTit">Kyrgyz National Museum of Fine Arts</p>
+                                                <p class="vTxt">Welcome to the world of Kyrgyz Art!</p>
+                                                <ul>
+                                                    <li>Origins and modernity</li>
+                                                    <li>immersion in the art world</li>
+                                                    <li>art education for all</li>
+                                                    <li>new acquaintances in the meseum</li>
+                                                    <li>family trip to meseum</li>
+                                                    <li>aesthetic delight</li>
+                                                    <li>art therapy, inspiration</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="vs-bg"><span class="hide">배경이미지</span></div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="vs-txt">
+                                        <h2><img src="img/main/kgz_main2.jpg" style="height: 437px;"/></h2>
+                                        <div class="txtA">
+                                            <div class="area">
+                                                <p class="vTit">Kyrgyz National Museum of Fine Arts</p>
+                                                <p class="vTxt">Welcome to the world of Kyrgyz Art!</p>
+                                                <ul>
+                                                    <li>Origins and modernity</li>
+                                                    <li>immersion in the art world</li>
+                                                    <li>art education for all</li>
+                                                    <li>new acquaintances in the meseum</li>
+                                                    <li>family trip to meseum</li>
+                                                    <li>aesthetic delight</li>
+                                                    <li>art therapy, inspiration</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="vs-bg"><span class="hide"><img src="static/img/main/kyk_1.JPG" style="height: 437px;"/>배경이미지</span></div>
+                                </div>
+                            </div>
+                            <div class="main-visual-btn">
+                                <div class="swiper-button-prev"><i class="xi-angle-left"></i><span class="hide">이전슬라이드</span>
+                                </div>
+                                <div class="swiper-button-next"><i class="xi-angle-right"></i><span class="hide">다음슬라이드</span>
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="sec02">
+                        <div class="inner">
+                            <div class="popup">
+                                <h3>Collection</h3>
+                                <div class="popup_list" id="popList">
+                                    <th:block th:if="${not #lists.isEmpty(dataList)}" th:each="l, index : ${dataList}">
+                                        <th:block  th:if="${not #lists.isEmpty(l.getFileList())}" th:each="f : ${l.getFileList()}">
+                                        <div class="list">
+                                            <a th:onclick="|location.href='@{'/test/dataSearchDetail'(Data_Code=${l.Data_Code})}'|" style="cursor:pointer;" target="_blank">
+                                                <img class="thumbnail" th:src="@{${ '/' + #strings.replace(f.filePath, '\', '/')}}" th:alt="${f.fileOriginalName}"
+                                                     style="margin:auto; display: block; height: 180px;"/>
+                                                <div class="area">
+                                                    <p class="pTit" th:text="${l.Title}">ABOUT KYRGYZ</p>
+                                                    <p class="pTxt" th:text="${l.Description}">내용내용내용</p>
+                                                    <p class="date" th:text="${l.Created_Time}">by KFS / Sep 26. 2020</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        </th:block>
+                                    </th:block>
+                                </div>
+                                <!-- 알림판 재생/정지버튼 -->
+                                <div class="control"><a href="#Stop" class="btn_stop" id="popupStop" title="중지">Stop</a> <a
+                                        href="#Play" class="btn_play" id="popupPlay" title="시작">Play</a></div>
+                                <!-- //알림판 재생/정지버튼-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <div class="inner">
+                    <ul>
+                        <li>
+                            <p class="fTit">OUR MISSION</p>
+                            <p>KCRMS empowers the cultural resource sector in its digital transformation. We develop expertise,
+                                tools and policies to embrace digital change and encourage partnerships that foster
+                                innovation.</p>
+                            <p class="fTit mt50">FIND US ELSEWHERE</p>
+                            <div class="sns"><a href="#"><i class="xi-facebook"></i></a><a href="#"><i
+                                    class="xi-twitter"></i></a><a href="#"><i class="xi-pinterest-p"></i></a><a href="#"><i
+                                    class="xi-instagram"></i></a><a href="#"><i class="xi-linkedin"></i></a></div>
+                        </li>
+                        <li>
+                            <p class="fTit">Contact Us</p>
+                            <p>Kyrgyzstan Cultural Resource Management System</p>
+                            <p> VJH3+3GC, Chuy Ave, Bishkek, Kyrgyzstan</p>
+                            <p>shinwhahong@cics.center</p>
+                            <p class="fTit mt50">CUSTOMISE WEBSITE LANGUAGE</p>
+                            <div class="ftBtn_wrap">
+                                <div class="ftBtn_box">
+                                    <button class="ftBtn"><span>English</span></button>
+                                    <div class="ft_site">
+                                        <ul>
+                                            <li><a data-qa="Български language option" role="menuitem" href="/bg"
+                                                   target="_blank" rel="noopener noreferrer"> Български </a></li>
+                                            <li><a data-qa="Čeština language option" role="menuitem" href="/cs" target="_blank"
+                                                   rel="noopener noreferrer"> Čeština </a></li>
+                                            <li><a data-qa="Dansk language option" role="menuitem" href="/da" target="_blank"
+                                                   rel="noopener noreferrer"> Dansk </a></li>
+                                            <li><a data-qa="Deutsch language option" role="menuitem" href="/de" target="_blank"
+                                                   rel="noopener noreferrer"> Deutsch </a></li>
+                                            <li><a data-qa="Ελληνικά language option" role="menuitem" href="/el" target="_blank"
+                                                   rel="noopener noreferrer"> Ελληνικά </a></li>
+                                            <li><a data-qa="Español language option" role="menuitem" href="/es" target="_blank"
+                                                   rel="noopener noreferrer"> Español </a></li>
+                                            <li><a data-qa="Eesti language option" role="menuitem" href="/et" target="_blank"
+                                                   rel="noopener noreferrer"> Eesti </a></li>
+                                            <li><a data-qa="Euskara language option" role="menuitem" href="/eu" target="_blank"
+                                                   rel="noopener noreferrer"> Euskara </a></li>
+                                            <li><a data-qa="Suomi language option" role="menuitem" href="/fi" target="_blank"
+                                                   rel="noopener noreferrer"> Suomi </a></li>
+                                            <li><a data-qa="Français language option" role="menuitem" href="/fr" target="_blank"
+                                                   rel="noopener noreferrer"> Français </a></li>
+                                            <li><a data-qa="Gaeilge language option" role="menuitem" href="/ga" target="_blank"
+                                                   rel="noopener noreferrer"> Gaeilge </a></li>
+                                            <li><a data-qa="Hrvatski language option" role="menuitem" href="/hr" target="_blank"
+                                                   rel="noopener noreferrer"> Hrvatski </a></li>
+                                            <li><a data-qa="Magyar language option" role="menuitem" href="/hu" target="_blank"
+                                                   rel="noopener noreferrer"> Magyar </a></li>
+                                            <li><a data-qa="Italiano language option" role="menuitem" href="/it" target="_blank"
+                                                   rel="noopener noreferrer"> Italiano </a></li>
+                                            <li><a data-qa="Lietuvių language option" role="menuitem" href="/lt" target="_blank"
+                                                   rel="noopener noreferrer"> Lietuvių </a></li>
+                                            <li><a data-qa="Latviešu language option" role="menuitem" href="/lv" target="_blank"
+                                                   rel="noopener noreferrer"> Latviešu </a></li>
+                                            <li><a data-qa="Malti language option" role="menuitem" href="/mt" target="_blank"
+                                                   rel="noopener noreferrer"> Malti </a></li>
+                                            <li><a data-qa="Nederlands language option" role="menuitem" href="/nl"
+                                                   target="_blank" rel="noopener noreferrer"> Nederlands </a></li>
+                                            <li><a data-qa="Polski language option" role="menuitem" href="/pl" target="_blank"
+                                                   rel="noopener noreferrer"> Polski </a></li>
+                                            <li><a data-qa="Português language option" role="menuitem" href="/pt"
+                                                   target="_blank" rel="noopener noreferrer"> Português </a></li>
+                                            <li><a data-qa="Română language option" role="menuitem" href="/ro" target="_blank"
+                                                   rel="noopener noreferrer"> Română </a></li>
+                                            <li><a data-qa="Slovenčina language option" role="menuitem" href="/sk"
+                                                   target="_blank" rel="noopener noreferrer"> Slovenčina </a></li>
+                                            <li><a data-qa="Slovenščina language option" role="menuitem" href="/sl"
+                                                   target="_blank" rel="noopener noreferrer"> Slovenščina </a></li>
+                                            <li><a data-qa="Svenska language option" role="menuitem" href="/sv" target="_blank"
+                                                   rel="noopener noreferrer"> Svenska </a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                $(function () {
+                                    $('.ftBtn_wrap button.ftBtn').click(function () {
+                                        $siteList = $(this).next('.ft_site');
+                                        if ($(this).hasClass('open')) {
+                                            $(this).removeClass('open');
+                                            $siteList.stop().slideUp();
+                                        } else {
+                                            $(this).addClass('open');
+                                            $siteList.stop().slideDown();
+                                        }
+                                    });
+                                });
+
+                                function showTotalStatistics_Popup(){
+                                    const url = "/test/totalStatisticsPopup";
+                                    const winWidth = 1000;
+                                    const winHeight = 700;
+                                    const left = 0;
+                                    const top = 0;
+                                    const popupOption = "width=" + winWidth + ", height=" + winHeight + ", left=" + left + ", top=" +top;
+                                    window.open(url, "Staticstical Info", popupOption);
+                                }
+
+
+                            </script>
+                        </li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <head th:replace="fragments/head_ru :: headFragment_ru">
+        <link rel="stylesheet" type="text/css" href="https://www.w3schools.com/w3css/4/w3.css">
+    </head>
+
+    <title th:text="${title}"></title>
+
+    <body data-spy="scroll" data-target=".navbar-collapse">
+        <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class='preloader' th:replace="fragments/preloader :: preloaderFragment"></div>
+
+        <header th:replace="fragments/header_ru :: headerFragment_ru"></header>
+
+        <main layout:fragment="customContents">
+            <section id="service" class="service sections margin-top-120">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="head_title text-center">
+                                <!-- 검색 -->
+                                <form th:action="@{/test/ru/dataSearchResult}" method="get">
+                                    <div class="testsearch" style="margin-bottom: 20px; margin-top: 20px;  text-align: center">
+
+                                        <div style="height: 100%">
+                                            <select name="searchKey" hidden>
+                                                <option value="Description">Description</option>
+                                                <option value="Title">Title</option>
+                                                <option value="Identifier">Identifier</option>
+                                                <option value="Providing_Institution">Providing_Institution</option>
+                                            </select>
+                                            <input type="text" class="search-bar" name="searchValue" placeholder="Пожалуйста, введите ключевое слово для поиска."
+                                                   style="width: 440px; line-height: 39px; margin-right: -7px"/>
+                                            <button type="submit" class="btn" style="margin-bottom: 23px; border-radius: 0px;">Поиск</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- List or Card 선택 -->
+                            <div class="switch-container">
+                                <ul class="view-type">
+                                    <li class="view-type-li">
+                                        <a id="view-type-list" class="btn btn-primary" href="#" role="button" disabled="true" onclick="setType()">LIST</a>
+                                    </li>
+                                    <li view-type-li>
+                                        <a id="view-type-card" class="btn btn-primary" href="#" role="button" onclick="setType()">CARD</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="single_service_area  margin-top-80">
+                                <div class="row">
+                                    <div class="col-sm-3 col-xs-12">
+                                        <div class="row mb-3 mt-4">
+                                            <div class="col">
+                                                <div class="position-relative">
+                                                    <div class="form-group form-animate-text" style="margin-top:-30px !important;">
+                                                        <label class="facet-label">Предоставляющее учреждение</label>
+                                                        <ul id="ulPI">
+                                                            <li class="list-inline-item mw-100" id="liPI">
+                                                            </li>
+                                                        </ul>
+                                                        <select class="form-control1" id="validate_Providing_Institution" name="Providing_Institution_Ru" onchange="Providing_Institution(this)">
+                                                            <option value="Выберите предоставляющее учреждение">Выберите предоставляющее учреждение</option>
+                                                            <option value="Национальный исторический музей">Национальный исторический музей</option>
+                                                            <option value="Национальный музей изящных искусств">Национальный музей изящных искусств</option>
+                                                            <option value="Центр кочевой цивилизации">Центр кочевой цивилизации</option>
+                                                            <option value="Другой">Другой</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="position-relative">
+                                                    <div class="form-group form-animate-text" style="margin-top:40px !important;">
+                                                        <label class="facet-label">Могу ли я использовать это?</label>
+                                                        <ul id="ulCI">
+                                                            <li id="liCI" class="list-inline-item mw-100">
+                                                            </li>
+                                                        </ul>
+                                                        <select class="form-control1" id="validate_Rights_Statement_Media" name="Rights_Statement_Media" onchange="CanIUseThis(this)">
+                                                            <option value="Выберите, можете ли вы использовать это">Выберите, можете ли вы использовать это</option>
+                                                            <option value="https://creativecommons.org/licenses/by-sa/4.0/">Да (бесплатно)</option>
+                                                            <option value="http://rightsstatements.org/vocab/InC/1.0/">Может быть, получить разрешение</option>
+                                                            <option value="https://creativecommons.org/licenses/by-nc-nd/4.0/">Да с условиями</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="position-relative">
+                                                    <div class="form-group form-animate-text" style="margin-top:40px !important;">
+                                                        <label class="facet-label">Тип объекта</label>
+                                                        <ul id="ulTOO">
+                                                            <li id="liTO" class="list-inline-item mw-100">
+                                                            </li>
+                                                        </ul>
+                                                        <select class="form-control1" id="validate_Object_Type" name="Object_Type_Ru" onchange="ObjectType(this)">
+                                                            <option value="Выберите типы объектов">Выберите типы объектов</option>
+                                                            <option value="Книга">Книга</option>
+                                                            <option value="Рукописи">Рукописи</option>
+                                                            <option value="Мода">Мода</option>
+                                                            <option value="Искусство">Искусство</option>
+                                                            <option value="Археология">Археология</option>
+                                                            <option value="Фотография">Фотография</option>
+                                                            <option value="Другие">Другие</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="position-relative">
+                                                    <div class="form-group form-animate-text" style="margin-top:40px !important;">
+                                                        <label class="facet-label">Тип СМИ</label>
+                                                        <ul id="ulTOM">
+                                                            <li id="liTM" class="list-inline-item mw-100">
+                                                            </li>
+                                                        </ul>
+                                                        <select class="form-control1" id="validate_Digital_Data_Type" name="Digital_Data_Type_Ru" onchange="mediaType(this)">
+                                                            <option value="Выберите типы носителей">Выберите типы носителей</option>
+                                                            <option value="Текст">Текст</option>
+                                                            <option value="Изображение">Изображение</option>
+                                                            <option value="Звук">Звук</option>
+                                                            <option value="видео">видео</option>
+                                                            <option value="Others">Другие</option>
+                                                        </select>
+                                                        <!-- <select class="form-control1" id="validate_File_Extension" name="File_Extension">
+                                                             <option value="File Extension">File Extension</option>
+                                                         </select>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col" id="col-label" style="display: none">
+                                                <div class="position-relative">
+                                                    <div class="form-group form-animate-text" style="margin-top:40px !important;">
+                                                        <label class="facet-label">Расширение файла</label>
+                                                        <ul id="ulFE">
+                                                            <li id="liFE" class="list-inline-item mw-100">
+                                                            </li>
+                                                        </ul>
+                                                        <select class="form-control1" id="validate_File_Extension" name="File_Extension" onchange="FileExtension(this)">
+                                                            <option value="Расширение файла">Расширение файла</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="searchResultTable" class="col-sm-9 col-xs-12">
+                                        <table class="testSearch">
+                                            <input id="dataSearchList" type="hidden" th:value="${dataSearchList}"></input>
+                                            <tbody>
+                                            <th:block th:if="${not #lists.isEmpty(dataSearchList)}" th:each="l : ${dataSearchList}">
+                                                <th:block  th:if="${not #lists.isEmpty(l.getFileList())}" th:each="f : ${l.getFileList()}">
+                                                    <tr>
+                                                        <td class="list-img-container" rowspan="4" th:width="230">
+                                                            <a th:onclick="|location.href='@{'/test/ru/dataSearchDetail'(Data_Code=${l.Data_Code})}'|" style="cursor:pointer;">
+                                                                <img th:src="@{${ '/' + #strings.replace(f.filePath, '\', '/')}}" class="card-img rounded-0" th:alt="${f.fileOriginalName}"/>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </th:block>
+                                                <th:block th:unless="${not #lists.isEmpty(l.getFileList())}">
+                                                    <tr>
+                                                        <td rowspan="4" th:width="230">
+                                                            <img th:src="@{/assets/img/ImgNone.png}" class="card-img rounded-0"/>
+                                                        </td>
+                                                    </tr>
+
+                                                    </tr>
+                                                </th:block>
+                                                <tr>
+                                                    <td id="tdIdentifier" th:text="Identifier" th:width="230"></td>
+                                                    <td>
+                                                        <a th:text="${l.Identifier}" th:onclick="|location.href='@{'/test/ru/dataSearchDetail'(Data_Code=${l.Data_Code})}'|" style="cursor:pointer;">
+                                                            None
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td th:text="Title"></td>
+                                                    <td id="title" th:text="${l.Title_Ru}">
+                                                        None
+                                                    </td>
+                                                </tr>
+                                                <tr class="trEnd" style="border-bottom: 1px solid #AAAAAA;">
+                                                    <td th:text="Description"></td>
+                                                    <td id="desc" th:text="${l.Description_Ru}">
+                                                        None
+                                                    </td>
+                                                </tr>
+                                            </th:block>
+                                            <th:block th:unless="${not #lists.isEmpty(dataSearchList)}" th:each="l : ${dataSearchList}">
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <p>등록된 작품이 없습니다.</p>
+                                                    </td>
+                                                </tr>
+                                            </th:block>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div style="text-align: right; margin-top: 30px;">
+                                        <button type="button" class="btn" th:if="${session.SEMAIL != null}" th:onclick="|location.href='@{'/admin/ru/insert'}'|">Загрузить</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="paginationContainer">
+                    <ul id="paginationUl" style="display: flex; justify-content: center; align-content: center;">
+
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <th:block layout:fragments="customCss">
+            <style>
+
+                .my-pagination {
+                    margin-right: 10px; !important;
+                    list-style-type: none;
+                    float: left;
+                }
+                <!-- 카드 뷰 -->
+                .card-title {
+                    margin-bottom: 0.75rem;
+                }
+                p {
+                    margin-top: 0;
+                    margin-bottom: 1rem;
+                }
+                p {
+                    display: block;
+                    margin-block-start: 1em;
+                    margin-block-end: 1em;
+                    margin-inline-start: 0px;
+                    margin-inline-end: 0px;
+                }
+                .card-row {
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -ms-flex-wrap: wrap;
+                    margin-right: -15px;
+                    margin-left: -15px;
+                    margin-bottom: 15px;
+                }
+                .card-col {
+                    -ms-flex-preferred-size: 0;
+                    flex-basis: 0;
+                    -ms-flex-positive: 1;
+                    flex-grow: 1;
+                    max-width: 100%;
+                    position: relative;
+                    width: 100%;
+                    padding-right: 15px;
+                    padding-left: 15px;
+                }
+                .card {
+
+                    max-width: 300px;
+                    min-width: 0;
+                    min-height: 600px;
+                    position: relative;
+                    display: flex;
+                    -webkit-box-orient: vertical;
+                    -webkit-box-direction: normal;
+                    -ms-flex-direction: column;
+                    flex-direction: column;
+                    word-wrap: break-word;
+                    background-color: #fff;
+                    background-clip: border-box;
+                    border: 1px solid rgba(0,0,0,.125);
+                    border-radius: 4px;
+
+                }
+                .card-img-container {
+                    display: flex;
+                    min-height: 300px;
+
+                }
+                .card-image {
+                    max-height: 300px;
+                    max-width: 200px;
+                    min-width: 0;
+                    border-radius: 4px;
+                }
+                .card-line {
+                    border-top: 1px solid #0000001F;
+                    margin: 5px 0px;
+                }
+                .card-title {
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 1;
+                    overflow: hidden;
+                }
+                .card-body {
+                    -webkit-box-flex: 1;
+                    -ms-flex: 1 1 auto;
+                    flex: 1 1 auto;
+                    padding: 1.25rem;
+                }
+                .card-text {
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 3;
+                    overflow: hidden;
+                }
+
+                <!-- 카드 뷰 끝 -->
+
+
+                .list-img-container {
+                    width: 70%;
+                    height: 150px;
+                    overflow: hidden;
+                }
+                .list-img-container img {
+                    max-width: 100%;
+                    max-height: 150px;
+                    height: auto;
+                    display: block;
+                }
+                .view-type-li {
+                    list-style-type: none;
+                    float: left;
+                    border-top-left-radius: 2px;
+                    border-bottom-left-radius: 2px;
+                }
+                .view-type {
+                    white-space: nowrap;
+                    z-index: 1;
+                    list-style: none;
+                    display: flex;
+                    padding: 0;
+                    justify-content: right;
+                    font-size: 0;
+                }
+
+
+                .btn{
+                    min-width: 100px !important;
+                    border-radius: 0px !important;
+                }
+
+                td {
+                    padding: 10px;
+                    /*border-bottom: 1px solid #AAAAAA;*/
+                }
+                img {
+                    margin: auto;
+                    display: block;
+                    max-width: 40%;
+                }
+                .testSearch{
+                    margin-bottom: 30px;
+                    width: 100%;
+                    /*border-bottom: 1px solid #AAAAAA !important;*/
+                    border-collapse: collapse;
+                }
+                #desc, #title{
+                    /*display: inline-block;*/
+                    display: block;
+                    width: 570px;
+                    /*white-space: nowrap;*/
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                    white-space: normal;
+                    /*line-height: 1.2;*/
+                    height: 3.6em;
+                    /*text-align: left;*/
+                    /*word-wrap: break-word;*/
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                }
+                .facet-label {
+                    font-weight: normal;
+                    font-family: sans-serif;
+                    font-size: .75rem;
+                    text-transform: uppercase;
+                    color: #4d4d4d;
+                    margin-bottom: 0.25rem;
+                }
+                #validate_Rights_Statement_Media, #validate_Providing_Institution{
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                .form-control1 {
+                    display: block;
+                    width: 85%;
+                    height: 50px;
+                    padding: 6px 12px;
+                    font-size: 13px;
+                    line-height: 1.42857143;
+                    color: #1c84c6;
+                    background-color: #fff;
+                    background-image: none;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+                    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+                    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+                    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+                    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+                }
+                .container{
+                    max-width: 1300px;
+                }
+                .container{
+                    width: 100%;
+                    padding-right: 15px;
+                    padding-left: 15px;
+                    margin-right: auto;
+                    margin-left: auto;
+                }
+                *, ::after, ::before {
+                    box-sizing: border-box;
+                }
+                .testSearch{
+                    border-bottom: 1px solid #AAAAAA;
+                    margin-bottom: 30px;
+                    width: 100%;
+                }
+                .mt-4{
+                    margin-top: 1.5rem!important;
+                }
+                .mb-3{
+                    margin-bottom: 1rem!important;
+                }
+                .col {
+                    -ms-flex-preferred-size: 0;
+                    flex-basis: 0;
+                    -ms-flex-positive: 1;
+                    flex-grow: 1;
+                    max-width: 100%;
+                    position: relative;
+                    width: 100%;
+                    padding-right: 15px;
+                    padding-left: 15px;
+                }
+                .position-relative {
+                    position: relative!important;
+                }
+                .position-relative {
+                    position: relative!important;
+                }
+
+                .badge-primary-light.remove-button {
+                    padding-right: 0.65rem;
+                }
+                .badge-primary-light {
+                    background-color: #daeaf8;
+                    color: #4d4d4d;
+                    font-size: .875rem;
+                    border-radius: 2.25rem;
+                    align-items: center !important;
+                    margin-right: 0;
+                }
+                .badge-pill {
+                    border-radius: 1.125rem;
+                    padding: 0.25rem 0.75rem;
+                    height: 2.25rem;
+                    min-width: 4rem;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-weight: 400;
+                    transition: .3s ease-in-out;
+                    line-height: 1.5;
+                }
+                .badge {
+                    text-decoration: none;
+                    font-size: .875rem;
+                    transition: .3s ease-in-out;
+                    overflow: hidden;
+                    position: relative;
+                }
+                .b-form-tag {
+                    font-size: 75%;
+                    font-weight: 400;
+                    line-height: 1.5;
+                    margin-right: 0.25rem;
+                }
+                .mw-100 {
+                    max-width: 100%!important;
+                }
+                .align-items-baseline {
+                    -ms-flex-align: baseline!important;
+                    align-items: baseline!important;
+                }
+                .d-inline-flex {
+                    display: -ms-inline-flexbox!important;
+                    display: inline-flex!important;
+                }
+                .badge-pill {
+                    padding-right: 0.6em;
+                    padding-left: 0.6em;
+                    border-radius: 10rem;
+                }
+                .badge {
+                    margin: 5px 10px 15px 0px;
+                    height: 30px;
+                    display: inline-block;
+                    padding: 0.3em 1em;
+                    font-size: 75%;
+                    font-weight: 700;
+                    /*line-height: 1;*/
+                    text-align: center;
+                    white-space: nowrap;
+                    vertical-align: baseline;
+                    border-radius: 1.25rem;
+                    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+                }
+                button.close {
+                    -webkit-appearance: none;
+                    padding: 0px;
+                    cursor: pointer;
+                    background: 0 0;
+                    border: 0;
+                }
+                .close {
+                    float: right;
+                    font-size: 21px;
+                    font-weight: 700;
+                    line-height: 1;
+                    color: #000;
+                    text-shadow: 0 1px 0 #fff;
+                    filter: alpha(opacity=20);
+                    opacity: .2;
+                }
+
+            </style>
+        </th:block>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript">
+            const i = 1;
+            let cur_pageNum = 1; // 현재 페이지값, default값 1
+            let type = 1; // 현재 list뷰인지(1) card뷰인지(2)
+            let query = '';
+
+            let providingInstitutionList = [];
+            let rightsStatementMediaList = [];
+            let objectTypeList = [];
+            let digitalDateTypeList = [];
+            let fileExtensionList = [];
+            let allData = [];
+            let filteredDataIndex = [];
+            let ulButton = $('<span class="badge b-form-tag d-inline-flex align-items-baseline mw-100 remove-button badge-primary-light badge-pill" data-qa="filter badge" id="span_PI' + i +'" aria-labelledby="__BVID__48189__taglabel_PI">' +
+                '<span class="b-form-tag-content flex-grow-1 text-truncate" id="__BVID__48189__taglabel_PI">' +
+                '<span id="spanText_">' +
+                '</span>' +
+                '<button aria-keyshortcuts="Delete" data-val="" type="button" aria-label="Remove tag" id="close" class="close b-form-tag-remove" aria-controls="__BVID__48189" aria-describedby="__BVID__48189__taglabel_">×</button>' +
+                '</span>' +
+                '</span>');
+
+            getAllData();
+            getSearchValue();
+
+            function getSearchValue() {
+                query = $('#search-input').val();
+                console.log(query);
+            }
+            //--- data에 모든 데이터 로드시켜놓기
+            function getAllData() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/test/dataSearchResult',
+                    data: {providingInstitutionList : providingInstitutionList,
+                        rightsStatementMediaList :rightsStatementMediaList,
+                        objectTypeList : objectTypeList,
+                        digitalDateTypeList : digitalDateTypeList,
+                        fileExtensionList : fileExtensionList},
+                    dataType: 'json',
+                    /*async:false,*/       //동기식으로 사용해야지 리턴값이 있어서 false로 써줘야함
+                    success: function (data) {
+                    }, //success
+                    error: function (e) {
+                        console.log(e);
+                    }
+                }).done(function (data) {
+                    allData = data;
+                    console.log(allData);
+                    if(query != '') filteringData();
+
+                }); //ajax
+            }
+
+            function filteringData() {
+                filteredDataIndex = [];
+                for(let x=0; x<allData.length; x++) {
+                    if($('#dataSearchList').val().includes(allData[x].identifier)) {
+                        filteredDataIndex.push(x);
+                    }
+                }
+                console.log('fliteredDataIndex = ', filteredDataIndex);
+            }
+
+            function ObjectType(e){
+                cur_pageNum = 1; // 현재 페이지값, default값 1
+                if(e.value == "Выберите типы объектов"){
+                    return;
+                }
+                for(let i = 0; i < objectTypeList.length; i++){
+                    if(objectTypeList[i] == e.value){
+                        return;
+                    }
+                }
+                objectTypeList.push(e.value);
+                InitialulButton("TO" + objectTypeList.length);
+                $('#liTO').append(ulButton).trigger("create");
+                let spanId = "#spanText_TO" + objectTypeList.length;
+                $(spanId).text(e.value);
+
+                changeResultTableByAjax(providingInstitutionList, rightsStatementMediaList, objectTypeList, digitalDateTypeList, fileExtensionList);
+
+            }
+
+            function CanIUseThis(e){
+                cur_pageNum = 1; // 현재 페이지값, default값 1
+                //alert('Can I Use This?');
+                if(e.value == "Выберите, можете ли вы использовать это"){
+                    return;
+                }
+                for(let i = 0; i < rightsStatementMediaList.length; i++){
+                    if(rightsStatementMediaList[i] == e.value){
+                        return;
+                    }
+                }
+                rightsStatementMediaList.push(e.value);
+                InitialulButton("CI" + rightsStatementMediaList.length);
+                $('#liCI').append(ulButton).trigger("create");
+                let spanId = "#spanText_CI" + rightsStatementMediaList.length;
+                let result = $('#validate_Rights_Statement_Media option:selected').text();
+                $(spanId).text(result);
+                $(spanId).parent().find('button').data('val', e.value);
+
+                changeResultTableByAjax(providingInstitutionList, rightsStatementMediaList, objectTypeList, digitalDateTypeList, fileExtensionList);
+
+            }
+
+            /* Digital Data Type select 선택값에 따라 두번째 select 값 변경 */
+            function mediaType(e){
+                cur_pageNum = 1; // 현재 페이지값, default값 1
+                let fileExtension;
+                console.log("이거되나유");
+                const Image = ["Расширение файла", "JPG", "PNG", "GIF", "BMP"];
+                const Text = ["Расширение файла", "PDF", "DOC", "HTML"];
+                const Video = ["Расширение файла", "MP4", "AVI"];
+                const Sound = ["Расширение файла", "MP3"];
+                const Others = ["Расширение файла", "JPG", "PNG", "GIF", "BMP", "PDF", "DOC", "HTML", "MP4", "AVI", "MP3"];
+                const target = document.getElementById("validate_File_Extension");
+
+                target.options.length = 0;
+
+                if(e.value == "Изображение") {
+                    $("#col-label").css("display", "block");
+                    $("#ulTOM").css("display", "block");
+                    $("#ulFE").css("display", "block");
+                    $("#validate_File_Extension").css("display", "block");
+                    $("#spanText_TM").text("Изображение");
+                    fileExtension = Image;
+                }
+                else if(e.value == "Текст") {
+                    $("#col-label").css("display", "block");
+                    $("#ulTOM").css("display", "block");
+                    $("#ulFE").css("display", "block");
+                    $("#validate_File_Extension").css("display", "block");
+                    $("#spanText_TM").text("Текст");
+                    fileExtension = Text;
+                }
+                else if(e.value == "видео") {
+                    $("#col-label").css("display", "block");
+                    $("#ulTOM").css("display", "block");
+                    $("#ulFE").css("display", "block");
+                    $("#validate_File_Extension").css("display", "block");
+                    $("#spanText_TM").text("видео");
+                    fileExtension = Video;
+                }
+                else if(e.value == "Звук") {
+                    $("#col-label").css("display", "block");
+                    $("#ulTOM").css("display", "block");
+                    $("#ulFE").css("display", "block");
+                    $("#validate_File_Extension").css("display", "block");
+                    $("#spanText_TM").text("Звук");
+                    fileExtension = Sound;
+                }
+                else if(e.value == "Другие") {
+                    $("#col-label").css("display", "block");
+                    $("#ulTOM").css("display", "block");
+                    $("#ulFE").css("display", "block");
+                    $("#validate_File_Extension").css("display", "block");
+                    $("#spanText_TM").text("Другие");
+                    fileExtension = Others;
+                }
+                else if(e.value == "Расширение файла") {
+                    $("#col-label").css("display", "none");
+                    $("#ulTOM").css("display", "none");
+                    $("#validate_File_Extension").css("display", "none");
+
+                }
+
+                for(x in fileExtension){
+                    const opt = document.createElement("option");
+                    opt.value = fileExtension[x];
+                    opt.innerHTML = fileExtension[x];
+                    target.appendChild(opt);
+                }
+                if(e.value == "Расширение файла"){
+                    return;
+                }
+                for(let i = 0; i < digitalDateTypeList.length; i++){
+                    if(digitalDateTypeList[i] == e.value){
+                        return;
+                    }
+                }
+                digitalDateTypeList.push(e.value);
+                InitialulButton("TM" + digitalDateTypeList.length);
+                $('#liTM').append(ulButton).trigger("create");
+                let spanId = "#spanText_TM" + digitalDateTypeList.length;
+                console.log('spanId = '+ spanId);
+                $(spanId).text(e.value);
+
+                changeResultTableByAjax(providingInstitutionList, rightsStatementMediaList, objectTypeList, digitalDateTypeList, fileExtensionList);
+
+            }
+
+            function FileExtension(e){
+                cur_pageNum = 1; // 현재 페이지값, default값 1
+                if(e.value == "Расширение файла"){
+                    return;
+                }
+                for(let i = 0; i < fileExtensionList.length; i++){
+                    if(fileExtensionList[i] == e.value){
+                        return;
+                    }
+                }
+                fileExtensionList.push(e.value);
+                InitialulButton("FE" + fileExtensionList.length);
+                $('#liFE').append(ulButton).trigger("create");
+                let spanId = "#spanText_FE" + fileExtensionList.length;
+                $(spanId).text(e.value);
+
+                changeResultTableByAjax(providingInstitutionList, rightsStatementMediaList, objectTypeList, digitalDateTypeList, fileExtensionList);
+
+            }
+
+            function InitialulButton(n) {
+                ulButton = $('<span class="badge b-form-tag d-inline-flex align-items-baseline mw-100 remove-button badge-primary-light badge-pill" data-qa="filter badge" id="span_PI' + n +'" aria-labelledby="__BVID__48189__taglabel_PI">' +
+                    '<span class="b-form-tag-content flex-grow-1 text-truncate" id="__BVID__48189__taglabel_PI">' +
+                    '<span id="spanText_' + n + '">' + '</span>' +
+                    '<button aria-keyshortcuts="Delete" type="button" aria-label="Remove tag" class="close b-form-tag-remove" id="close" aria-controls="__BVID__48189" aria-describedby="__BVID__48189__taglabel_">×</button>' +
+                    '</span>' +
+                    '</span>');
+            }
+
+            $(document).on('click', "#close", function() {
+                cur_pageNum = 1; // 현재 페이지값, default값 1
+                let tempList = [];
+                for(let i = 0; i<providingInstitutionList.length; i++){
+                    if(providingInstitutionList[i] != $(this).parent().find("span").text()) {
+                        tempList.push(providingInstitutionList[i]);
+                    }
+                }
+                providingInstitutionList = tempList;
+                if(providingInstitutionList.length == 0) {
+                    $('#validate_Providing_Institution').val('Выберите предоставляющее учреждение').prop("selected", true);
+                }
+
+                tempList=[];
+                for(let i = 0; i<rightsStatementMediaList.length; i++){
+                    //debugger;
+                    if(rightsStatementMediaList[i] != $(this).data('val')){
+                        tempList.push(rightsStatementMediaList[i]);
+                    }
+                }
+                rightsStatementMediaList = tempList;
+                if(rightsStatementMediaList.length == 0) {
+                    $('#validate_Rights_Statement_Media').val('Выберите, можете ли вы использовать это').prop("selected", true);
+                }
+
+                tempList = [];
+                for(let i = 0; i<objectTypeList.length; i++){
+                    if(objectTypeList[i] != $(this).parent().find("span").text()){
+                        tempList.push(objectTypeList[i]);
+                    }
+                }
+                objectTypeList = tempList;
+                if(objectTypeList.length == 0) {
+                    $('#validate_Object_Type').val('Выберите типы объектов').prop("selected", true);
+                }
+
+                //--------------- 여기부터 Media Type --------------------//
+                tempList = [];
+                for(let i = 0; i<fileExtensionList.length; i++){
+                    if(fileExtensionList[i] != $(this).parent().find("span").text()){
+                        tempList.push(fileExtensionList[i]);
+                    }
+                }
+                fileExtensionList = tempList;
+                if(fileExtensionList.length == 0) {
+                    $('#validate_File_Extension').val('Расширение файла').prop("selected", true);
+                }
+
+                tempList = [];
+                for(let i = 0; i<digitalDateTypeList.length; i++){
+                    if(digitalDateTypeList[i] != $(this).parent().find("span").text()){
+                        tempList.push(digitalDateTypeList[i]);
+                    }
+                }
+                digitalDateTypeList = tempList;
+                if(digitalDateTypeList.length == 0) {
+                    $('#validate_Digital_Data_Type').val('Выберите типы носителей').prop("selected", true);
+                    $('#validate_File_Extension').val('Расширение файла').prop("selected", true);
+
+                    $("#col-label").css("display", "none");
+                    $("#ulFE").css("display", "none");
+                    $('#liFE').empty();
+                    $("#validate_File_Extension").css("display", "none");
+                    fileExtensionList = [];
+                }
+
+                $(this).parent().parent().remove();
+
+                changeResultTableByAjax(providingInstitutionList, rightsStatementMediaList, objectTypeList, digitalDateTypeList, fileExtensionList);
+
+            });
+
+
+            function changeResultTableByAjax(providingInstitutionList, rightsStatementMediaList, objectTypeList, digitalDateTypeList, fileExtensionList){
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/test/ruSearchBySelectList',
+                    data: {providingInstitutionList : providingInstitutionList,
+                        rightsStatementMediaList :rightsStatementMediaList,
+                        objectTypeList : objectTypeList,
+                        digitalDateTypeList : digitalDateTypeList,
+                        fileExtensionList : fileExtensionList},
+                    dataType: 'json',
+                    /*async:false,*/        //동기식으로 사용해야지 리턴값이 있어서 false로 써줘야함
+                    success: function (data) {
+                    }, //success
+                    error: function (e) {
+                        console.log(e);
+                    },
+                }).done(function (data) {
+                    // data : providing institution으로 받은 데이터
+                    if(query != '') {
+                        filteredData = [];
+                        //--- 검색 키워드 필터링
+                        for(x in data) {
+                            for(y in filteredDataIndex) {
+                                if(data[x].identifier == allData[filteredDataIndex[y]].identifier) filteredData.push(data[x]);
+                            }
+                        }
+                        data = filteredData;}
+
+                    //--- searchResultTable 아래를 비움.
+                    $('#searchResultTable').empty();
+
+                    //--- type이 Card인 경우 card-contatiner를 추가로 만들어줌.
+                    if(type == 2) {
+                        let cardContainer = '<div class="card-container"></div>';
+                        $('#searchResultTable').append(cardContainer);
+                    }
+
+                    //--- data를 기반으로 검색결과를 그리는 부분
+                    InitSearchResult(data);
+
+                    //---- 페이지네이션 생성하는 부분
+                    //--- 페이지 갯수를 구하는 부분
+                    let pageNum = 0;
+                    if(type == 1) {
+                        pageNum = Math.floor(data.length / 10);
+                        if(data.length%10 != 0) pageNum++; // data가 54개면 10x5페이지 + 4x1페이지 이므로 1페이지 추가
+                    }
+                    else if(type == 2) {
+                        pageNum = Math.floor(data.length / 9);
+                        if(data.length%9 != 0) pageNum++; // data가 55개면 9x6페이지 + 1x1페이지 이므로 1페이지 추가
+                    }
+                    MakePagination(pageNum);
+                    SetFontWeight(pageNum);
+
+                }); //ajax
+            }
+
+            function Providing_Institution(e){
+                cur_pageNum = 1; // 현재 페이지값, default값 1
+                if(e.value == "Выберите предоставляющее учреждение"){
+                    return;
+                }
+                for(let i = 0; i < providingInstitutionList.length; i++){
+                    if(providingInstitutionList[i] == e.value){
+                        return;
+                    }
+                }
+                providingInstitutionList.push(e.value);
+                InitialulButton("PI" + providingInstitutionList.length);
+                $('#liPI').append(ulButton).trigger("create");
+                let spanId = "#spanText_PI" + providingInstitutionList.length;
+                $(spanId).text(e.value);
+                //debugger;
+                changeResultTableByAjax(providingInstitutionList, rightsStatementMediaList, objectTypeList, digitalDateTypeList, fileExtensionList);
+
+            }
+
+            function InitSearchResult(data, pageNum) {
+                //--- 리스트형태
+                if (type == 1) {
+                    for (let x = (cur_pageNum - 1) * 10, cnt = 0; cnt < 10 && x < data.length; x++, cnt++) {
+                        console.log('x = ' + x + ', cnt = ' + cnt);
+                        let filePath = '/' + data[x].fileList[0].filePath.replace('\\', '/');
+                        let temp = "<table class=\"testSearch\">\n" +
+                            "                                            <tbody>\n" +
+                            "                                                    <tr>\n" +
+                            "                                                        <td class=\"list-img-container\" rowspan=\"4\" width=\"230\">\n" +
+                            "                                                            <a onclick=\"location.href='/test/ru/dataSearchDetail?Data_Code=" + data[x].data_Code + "'\" style=\"cursor:pointer;\">\n" +
+                            "                                                                <img src=\"" + filePath + "\"   class=\"card-img rounded-0\">\n" +
+                            "                                                            </a>\n" +
+                            "                                                        </td>\n" +
+                            "                                                    </tr>\n" +
+                            "                                                <tr>\n" +
+                            "                                                    <td id=\"tdIdentifier\"width=\"230\">дентификатор</td>\n" +
+                            "                                                    <td>\n" +
+                            "                                                        <a onclick=\"location.href='/test/ru/dataSearchDetail?Data_Code=" + data[x].data_Code + "'\" style=\"cursor:pointer;\">\n" +
+                            "                                                            " + data[x].identifier +
+                            "                                                        </a>\n" +
+                            "                                                    </td>\n" +
+                            "                                                </tr>\n" +
+                            "                                                <tr>\n" +
+                            "                                                    <td>Заголовок</td>\n" +
+                            "                                                    <td id=\"title\">\n" +
+                            "                                                        " + data[x].title_Ru +
+                            "                                                    </td>\n" +
+                            "                                                </tr>\n" +
+                            "                                                <tr class=\"trEnd\" style=\"border-bottom: 1px solid #AAAAAA;\">\n" +
+                            "                                                    <td>Описание</td>\n" +
+                            "                                                    <td id=\"desc\">\n" +
+                            "                                                        " + data[x].description_Ru +
+                            "                                                    </td>\n" +
+                            "                                                </tr>\n" +
+                            "                                            </tbody>\n" +
+                            "                                        </table>";
+                        $('#searchResultTable').append(temp);
+                    }
+                }
+                //--- 카드 형태
+                else if (type == 2) {
+                    for (let x = (cur_pageNum - 1) * 9, cnt = 0; cnt < 9 && x < data.length; x++, cnt++) {
+                        //--- card가 3개씩 배치 될 때 마다 새로운 카드뷰 행을 만듦.
+                        let curRow = Math.floor(cnt / 3 + 1);
+                        let cardRowId = 'card-row' + curRow;
+                        let cardRowOpen = '<div id="' + cardRowId + '" class="card-row">';
+                        let cardRowClose = '</div>'
+                        if (cnt % 3 == 0) {
+                            $('.card-container').append(cardRowOpen);
+                        }
+                        let filePath = '/' + data[x].fileList[0].filePath.replace('\\', '/');
+                        let card = '<div class="card-col">\n' +
+                            '                                            <div class="card">\n' +
+                            '                                                <div class="card-img-container">\n' +
+                            '                                                     <img class="card-image" src="' + filePath + '" alt="" />\n' +
+                            '                                                 </div>' +
+                            '                                                <div class="card-line"></div>\n' +
+                            '                                                <div class="card-body">\n' +
+                            '                                                    <h5 class="card-title">' + data[x].title_Ru + '</h5>\n' +
+                            '                                                    <p class="card-text">' + data[x].description_Ru + '</p>\n' +
+                            '                                                    <a href="/test/ru/dataSearchDetail?Data_Code=' + data[x].data_Code + '" class="btn btn-primary">More</a>\n' +
+                            '                                                </div>\n' +
+                            '                                            </div>\n' +
+                            '                                        </div>';
+                        if (curRow == 1) $('#card-row1').append(card);
+                        else if (curRow == 2) $('#card-row2').append(card);
+                        else if (curRow == 3) $('#card-row3').append(card);
+                        //--- card가 3개씩 배치 될 때 마다 새로운 카드뷰 행을 만듦.
+                        if (cnt % 3 == 0) {
+                            $('.card-container').append(cardRowClose);
+                        }
+                    }
+                }
+            }
+
+
+            //--- Pagination 만드는 함수
+            // pageNum만큼 pagination을 만들어줌.
+            function MakePagination(pageNum) {
+                $('#paginationUl').empty();
+                let pagenationElement = '<li><a id="paginationLeft" class="my-pagination" href="#" onclick="paginationClick(-1,' + pageNum + ')">&laquo;</a></li>';
+                $('#paginationUl').append(pagenationElement);
+                for(let i=1; i<=pageNum; i++) {
+                    pagenationElement = '<li><a id="pagination' + i + '" class="my-pagination" href="#" onclick="paginationClick(' + i + ' ,' + pageNum + ')">' + i + '</a></li>';
+                    $('#paginationUl').append(pagenationElement);
+                }
+                pagenationElement = '<li><a id="paginationRight" class="my-pagination" href="#" onclick="paginationClick(0,' + pageNum + ')">&raquo;</a></li>';
+                $('#paginationUl').append(pagenationElement);
+            }
+
+            //--- Pagination 클릭 이벤트
+            // param = 옵션 (-1 : 이전페이지, 0 : 다음페이지 , 이외의 숫자 선택한 페이지번호)
+            // pageNum = 페이지 최대 수
+            function paginationClick(param, pageNum) {
+                if(param == -1) {
+                    cur_pageNum = (cur_pageNum > 1) ? cur_pageNum-1 : 1;
+                }
+                else if(param == 0) {
+                    cur_pageNum = (cur_pageNum < pageNum) ? cur_pageNum+1 : pageNum;
+                }
+                else {
+                    cur_pageNum = param;
+                }
+                changeResultTableByAjax(providingInstitutionList, rightsStatementMediaList, objectTypeList, digitalDateTypeList, fileExtensionList);
+            }
+            //--- 현재 Page의 번호를 굵게 만들어주는 함수
+            function SetFontWeight(pageNum) {
+                for(let x=1; x<=pageNum; x++) {
+                    if(x == cur_pageNum) document.getElementById('pagination' + x).style.fontWeight = "900";
+                    else document.getElementById('pagination' + x).style.fontWeight = "400";
+                }
+            }
+            //--- List, Card버튼 리스너
+            function setType() {
+                if(type == 1) {
+                    type = 2;
+                    $('#view-type-list').attr('disabled', false);
+                    $('#view-type-card').attr('disabled', true);
+                }
+                else if(type == 2) {
+                    type = 1;
+                    $('#view-type-list').attr('disabled', true);
+                    $('#view-type-card').attr('disabled', false);
+                }
+                changeResultTableByAjax(providingInstitutionList, rightsStatementMediaList, objectTypeList, digitalDateTypeList, fileExtensionList);
+            }
+
+
+        </script>
+
+        <footer th:replace="fragments/footer_ru :: footerFragment_ru"></footer>
+
+        <!-- START SCROLL TO TOP  -->
+        <div class="scrollup">
+            <a href="#"><i class="fa fa-chevron-up"></i></a>
+        </div>
+
+        <th:block th:replace="fragments/JavaScripts :: JSFragment"></th:block>
+
+    </body>
+</html>

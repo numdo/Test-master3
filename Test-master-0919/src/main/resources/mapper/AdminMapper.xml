@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <mapper namespace="com.example.testsearch.mapper.AdminMapper">
+        <resultMap id="DataResultMap" type="Data">
+            <id     column="Identifier"                     property="Identifier"/>
+            <result column="Objects"                        property="Objects"/>
+            <result column="Title"                          property="Title"/>
+            <result column="Title_Ru"                       property="Title_Ru"/>
+            <result column="Subject"                        property="Subject"/>
+            <result column="Subject_Ru"                     property="Subject_Ru"/>
+            <result column="Description"                    property="Description"/>
+            <result column="Description_Ru"                 property="Description_Ru"/>
+            <result column="Institute_Identifier"           property="Institute_Identifier"/>
+            <result column="Language"                       property="Language"/>
+            <result column="Language_Ru"                    property="Language_Ru"/>
+            <result column="Temporary"                      property="Temporary"/>
+            <result column="Temporary_Ru"                   property="Temporary_Ru"/>
+            <result column="Place"                          property="Place"/>
+            <result column="Place_Ru"                       property="Place_Ru"/>
+            <result column="Current_location"               property="Current_location"/>
+            <result column="Current_location_Ru"            property="Current_location_Ru"/>
+            <result column="Object_Etc"                     property="Object_Etc"/>
+            <result column="Object_Etc_Ru"                  property="Object_Etc_Ru"/>
+            <result column="Object_Type"                    property="Object_Type"/>
+            <result column="Object_Type_Ru"                 property="Object_Type_Ru"/>
+            <result column="Object_Size"                    property="Object_Size"/>
+            <result column="Object_Size_Ru"                 property="Object_Size_Ru"/>
+            <result column="Object_Material"                property="Object_Material"/>
+            <result column="Object_Material_Ru"             property="Object_Material_Ru"/>
+            <result column="Raw_Data_Type"                  property="Raw_Data_Type"/>
+            <result column="Raw_Data_Type_Ru"               property="Raw_Data_Type_Ru"/>
+            <result column="Digital_Data_Type"              property="Digital_Data_Type"/>
+            <result column="Digital_Data_Type_Ru"           property="Digital_Data_Type_Ru"/>
+            <result column="File_Extension"                 property="File_Extension"/>
+            <result column="Coverage"                       property="Coverage"/>
+            <result column="Coverage_Ru"                    property="Coverage_Ru"/>
+            <result column="Creator"                        property="Creator"/>
+            <result column="Creator_Ru"                     property="Creator_Ru"/>
+            <result column="Participants"                   property="Participants"/>
+            <result column="Participants_Ru"                property="Participants_Ru"/>
+            <result column="Publisher"                      property="Publisher"/>
+            <result column="Publisher_Ru"                   property="Publisher_Ru"/>
+            <result column="Provider"                       property="Provider"/>
+            <result column="Provider_Ru"                    property="Provider_Ru"/>
+            <result column="Providing_Institution"          property="Providing_Institution"/>
+            <result column="Providing_Institution_Ru"       property="Providing_Institution_Ru"/>
+            <result column="Provider_Country"               property="Provider_Country"/>
+            <result column="Provider_Country_Ru"            property="Provider_Country_Ru"/>
+            <result column="Collection_Name"                property="Collection_Name"/>
+            <result column="Collection_Name_Ru"             property="Collection_Name_Ru"/>
+            <result column="Source"                         property="Source"/>
+            <result column="Source_Ru"                      property="Source_Ru"/>
+            <result column="IsPartOf"                       property="IsPartOf"/>
+            <result column="IsPartOf_Ru"                    property="IsPartOf_Ru"/>
+            <result column="Links"                          property="Links"/>
+            <result column="Rights_Statement_Media"         property="Rights_Statement_Media"/>
+            <result column="Rights"                         property="Rights"/>
+            <result column="Rights_Ru"                      property="Rights_Ru"/>
+            <result column="Data_Code"                      property="Data_Code"/>
+            <result column="userId"                         property="userId"/>
+            <result column="Created_Time"                   property="Created_Time"/>
+            <result column="Updated_Time"                   property="Updated_Time"/>
+            <result column="Latitude"                       property="Latitude"/>
+            <result column="Longitude"                      property="Longitude"/>
+
+            <collection property="fileList" javaType="List" ofType="FileDto">
+                <id column="fileIdx" 						property="fileIdx"/>
+                <result	column="fileOriginalName" 			property="fileOriginalName"/>
+                <result column="fileNewName" 				property="fileNewName"/>
+                <result column="filePath" 					property="filePath"/>
+                <result column="fileSize" 					property="fileSize"/>
+            </collection>
+
+        </resultMap>
+
+        <insert id="addData" parameterType="com.example.testsearch.dto.Data">
+            /* Data 등록 처리 */
+            INSERT INTO `data`
+            ( Objects,
+              Title,
+              Title_Ru,
+              Subject,
+              Subject_Ru,
+              Description,
+              Description_Ru,
+              Institute_Identifier,
+              Identifier,
+              Language,
+              Language_Ru,
+              Temporary,
+              Temporary_Ru,
+              Place,
+              Place_Ru,
+              Current_location,
+              Current_location_Ru,
+              Object_Type,
+              Object_Type_Ru,
+              Object_Size,
+              Object_Size_Ru,
+              Object_Material,
+              Object_Material_Ru,
+              Object_Etc,
+              Object_Etc_Ru,
+              Raw_Data_Type,
+              Raw_Data_Type_Ru,
+              Digital_Data_Type,
+              Digital_Data_Type_Ru,
+              File_Extension,
+              Coverage,
+              Coverage_Ru,
+              Creator,
+              Creator_Ru,
+              Participants,
+              Participants_Ru,
+              Publisher,
+              Publisher_Ru,
+              Provider,
+              Provider_Ru,
+              Providing_Institution,
+              Providing_Institution_Ru,
+              Provider_Country,
+              Provider_Country_Ru,
+              Collection_Name,
+              Collection_Name_Ru,
+              Source,
+              Source_Ru,
+              IsPartOf,
+              IsPartOf_Ru,
+              Links,
+              Rights_Statement_Media,
+              Rights,
+              Rights_Ru,
+              Data_Code,
+              Created_Time,
+              Updated_Time,
+              userId
+            ) VALUES (
+                 #{Objects},
+                 #{Title},
+                 #{Title_Ru},
+                 #{Subject},
+                 #{Subject_Ru},
+                 #{Description},
+                 #{Description_Ru},
+                 #{Institute_Identifier},
+                 #{Identifier},
+                 #{Language},
+                 #{Language_Ru},
+                 #{Temporary},
+                 #{Temporary_Ru},
+                 #{Place},
+                 #{Place_Ru},
+                 #{Current_location},
+                 #{Current_location_Ru},
+                 #{Object_Type},
+                 #{Object_Type_Ru},
+                 #{Object_Size},
+                 #{Object_Size_Ru},
+                 #{Object_Material},
+                 #{Object_Material_Ru},
+                 #{Object_Etc},
+                 #{Object_Etc_Ru},
+                 #{Raw_Data_Type},
+                 #{Raw_Data_Type_Ru},
+                 #{Digital_Data_Type},
+                 #{Digital_Data_Type_Ru},
+                 #{File_Extension},
+                 #{Coverage},
+                 #{Coverage_Ru},
+                 #{Creator},
+                 #{Creator_Ru},
+                 #{Participants},
+                 #{Participants_Ru},
+                 #{Publisher},
+                 #{Publisher_Ru},
+                 #{Provider},
+                 #{Provider_Ru},
+                 #{Providing_Institution},
+                 #{Providing_Institution_Ru},
+                 #{Provider_Country},
+                 #{Provider_Country_Ru},
+                 #{Collection_Name},
+                 #{Collection_Name_Ru},
+                 #{Source},
+                 #{Source_Ru},
+                 #{IsPartOf},
+                 #{IsPartOf_Ru},
+                 #{Links},
+                 #{Rights_Statement_Media},
+                 #{Rights},
+                 #{Rights_Ru},
+                 #{Data_Code},
+                 NOW(),
+                 NOW(),
+                 #{userId}
+                 );
+
+        </insert>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </mapper>

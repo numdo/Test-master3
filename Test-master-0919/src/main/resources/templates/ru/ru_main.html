@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <head th:replace="fragments/head_ru :: headFragment_ru">
+        <th:block layout:fragments="customCss">
+            <style type="text/css">
+            </style>
+        </th:block>
+    </head>
+
+    <title th:text="${title}"></title>
+
+    <body data-spy="scroll" data-target=".navbar-collapse">
+    <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div class='preloader' th:replace="fragments/preloader :: preloaderFragment"></div>
+
+    <header th:replace="fragments/header_ru :: headerFragment_ru"></header>
+
+    <main layout:fragment="customContents">
+        <!-- Home Section -->
+        <section id="home" class="home">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        <div class="main_home_slider text-center">
+
+
+                            <div class="single_home_slider">
+                                <div class="home-overlay"></div>
+                                <div class="main_home wow fadeInUp" data-wow-duration="700ms">
+                                    <h2>КГЗ ТЕСТ</h2>
+                                    <div class="separator"></div>
+                                    <p class="subtitle">
+                                        Кыргызстан <br />
+                                       CRMS</p>
+                                    <div class="home_btn">
+                                        <a href="#" class="btn">Учить больше</a>
+                                    </div>
+                                </div>
+                            </div><!-- End of single_home_slider -->
+
+                            <div class="single_home_slider">
+                                <div class="home-overlay"></div>
+                                <div class="main_home wow fadeInUp" data-wow-duration="700ms">
+                                    <h2>КГЗ ТЕСТ</h2>
+                                    <div class="separator"></div>
+                                    <p class="subtitle">Кыргызстан <br />
+                                        CRMS</p>
+                                    <div class="home_btn">
+                                        <a href="#" class="btn">Учить больше</a>
+                                    </div>
+                                </div>
+                            </div><!-- End of single_home_slider -->
+
+                            <div class="single_home_slider">
+                                <div class="home-overlay"></div>
+                                <div class="main_home wow fadeInUp" data-wow-duration="700ms">
+                                    <h2>КГЗ ТЕСТ</h2>
+                                    <div class="separator"></div>
+                                    <p class="subtitle">Кыргызстан <br />
+                                        CRMS</p>
+                                    <div class="home_btn">
+                                        <a href="#" class="btn">Учить больше</a>
+                                    </div>
+                                </div>
+                            </div><!-- End of single_home_slider -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End of Home Section -->
+
+        <!-- 검색 -->
+        <form th:action="@{/test/ru/dataSearchResult}" method="get">
+            <div class="testsearch" style="margin-bottom: 20px; margin-top: 20px; text-align: center">
+                <select name="searchKey" hidden>
+                    <select name="searchKey" hidden>
+                        <option value="Description" hidden>Description</option>
+                        <option value="Objects" hidden>Objects</option>
+                        <option value="Title" hidden>Title</option>
+                        <option value="Subject" hidden>Subject</option>
+                        <option value="Identifier" hidden>Identifier</option>
+                    </select>
+                </select>
+                <div style="height: 100%">
+                    <input type="text" class="search-bar" name="searchValue" placeholder="Пожалуйста, введите ключевое слово для поиска."
+                           style="width: 440px; line-height: 39px; margin-right: -7px"/>
+                    <button type="submit" class="btn" style="margin-bottom: 23px; border-radius: 0px;">Поиск</button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <footer th:replace="fragments/footer_ru :: footerFragment_ru"></footer>
+
+    <!-- START SCROLL TO TOP  -->
+    <div class="scrollup">
+        <a href="#"><i class="fa fa-chevron-up"></i></a>
+    </div>
+
+    <th:block th:replace="fragments/JavaScripts :: JSFragment"></th:block>
+
+    </body>
+</html>

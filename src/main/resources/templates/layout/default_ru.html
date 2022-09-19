@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <!-- Head Start -->
+    <head th:replace="fragments/head_ru :: headFragment_ru"></head>
+    <!-- Head End -->
+        <th:block layout:fragments="customCss">
+            <style type="text/css">
+
+            </style>
+        </th:block>
+
+
+    <body data-spy="scroll" data-target=".navbar-collapse">
+    <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+        <!-- Preloader Start -->
+        <div class='preloader' th:replace="fragments/preloader :: preloaderFragment"></div>
+        <!-- Preloader End -->
+
+        <!-- Header Start -->
+        <header id="main_menu" class="header navbar-fixed-top" th:replace="fragments/header_ru :: headerFragment_ru"></header>
+        <!-- Header End -->
+
+        <!-- Main Start -->
+        <main layout:fragment="customContents">
+            <p>This is a paragraph from the content page</p>
+        </main>
+        <!-- Main End -->
+
+        <!-- Footer Start -->
+        <footer th:replace="fragments/footer_ru :: footerFragment_ru"></footer>
+        <!-- Footer End -->
+
+
+        <!-- START SCROLL TO TOP  -->
+        <div class="scrollup">
+            <a href="#"><i class="fa fa-chevron-up"></i></a>
+        </div>
+
+        <th:block th:replace="fragments/JavaScripts :: JSFragment"></th:block>
+
+        <th:block layout:fragment="customBodyScript"></th:block>
+
+    </body>
+
+</html>

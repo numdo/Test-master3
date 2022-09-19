@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <head th:replace="fragments/head :: headFragment">
+
+    </head>
+
+    <title th:text="${title}"></title>
+
+    <body data-spy="scroll" data-target=".navbar-collapse">
+        <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class='preloader' th:replace="fragments/preloader :: preloaderFragment"></div>
+
+        <header th:replace="fragments/header :: headerFragment"></header>
+
+        <main layout:fragment="customContents">
+
+            <section id="service" class="service sections margin-top-120">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="head_title text-center">
+                                <div align="center" style="padding: 20px 0px 0px 0px">
+                                    <th:block th:if="${not #lists.isEmpty(data)}" th:each="l : ${data}">
+                                        <span class="TitleInContentsInLineInContents" id="title">
+                                            [[${l.Title}]]
+                                        </span>
+                                    </th:block>
+                                    <div style="margin-bottom: 30px;">
+                                        <th:block th:if="${not #lists.isEmpty(data.fileList)}"  th:each="f : ${data.fileList}">
+                                            <div class="blog_item_img" style="max-width: 100%; max-height: 500px;">
+                                                <img style="height: 500px;" th:src="@{${ '/' + #strings.replace(f.filePath, '\', '/')}}" class="card-img rounded-0" th:alt="${f.fileOriginalName}"/>
+                                            </div>
+                                        </th:block>
+                                        <th:block th:unless="${not #lists.isEmpty(data.fileList)}">
+                                            <div class="blog_item_img">
+                                                <img th:src="@{/assets/img/ImgNone.png}"  class="card-img rounded-0"/>
+                                            </div>
+                                        </th:block>
+                                        <!--<img src="/image/1.jpg">-->
+                                    </div>
+                                    <th:block th:if="${not #lists.isEmpty(data)}" th:each="l : ${data}">
+                                        <span>
+                                            [[${l.Description}]]
+                                        </span>
+                                    </th:block>
+                                </div>
+
+                                <div class="single_service_area  margin-top-80">
+                                    <div class="row">
+                                        <div class="tabs">
+                                            <input id="all" type="radio" name="tab_item" checked>
+                                            <label class="tab_item" for="all">METADATA</label>
+                                            <input id="programming" type="radio" name="tab_item">
+                                            <label class="tab_item" for="programming">LOCATION</label>
+                                                <div class="tab_content" id="all_content">
+                                                    <div class id="CONTENTS">
+                                                        <div class="LineInContents" style="border-bottom: none;">
+                                                            <th:block th:if="${not #lists.isEmpty(data)}" th:each="l : ${data}">
+                                                                <div class="LineInContents" th:if="${data.identifier} != null">
+                                                                    <div class="TitleInLineInContents"th:text="Identifier"></div>
+                                                                    <div class="ContentsInLineInContents"th:text="${l.Identifier}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.title} != null">
+                                                                    <div class="TitleInLineInContents"th:text="Title"></div>
+                                                                    <div class="ContentsInLineInContents"th:text="${l.Title}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.subject} != null">
+                                                                    <div class="TitleInLineInContents"th:text="Subject"></div>
+                                                                    <div class="ContentsInLineInContents"th:text="${l.Subject}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.description} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Description"></div>
+                                                                    <div class="ContentsInLineInContents" id ="desc" th:text="${l.Description}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.institute_Identifier} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Institute_Identifier"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Institute_Identifier}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.language} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Language"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Language}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.temporary} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Temporary"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Temporary}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.place} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Place"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Place}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.current_location} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Current_location"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Current_location}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.object_Type} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Object_Type"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Object_Type}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.object_Size} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Object_Size"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Object_Size}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.object_Material} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Object_Material"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Object_Material}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.object_Etc} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Object_Etc"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Object_Etc}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.digital_Data_Type} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Digital_Data_Type"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Digital_Data_Type}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.file_Extension} != null">
+                                                                    <div class="TitleInLineInContents" th:text="File_Extension"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.File_Extension}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.coverage} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Coverage"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Coverage}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.creator} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Creator"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Creator}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.participants} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Participants"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Participants}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.publisher} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Publisher"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Publisher}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.provider} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Provider"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Provider}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.providing_Institution} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Providing_Institution"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Providing_Institution}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.provider_Country} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Provider_Country"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Provider_Country}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.latitude} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Latitude"></div>
+                                                                    <div class="ContentsInLineInContents" id="lat" th:text="${l.Latitude}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.longitude} != null">
+                                                                    <div class="TitleInLineInContents" th:text="Longitude"></div>
+                                                                    <div class="ContentsInLineInContents" id="lng" th:text="${l.Longitude}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.collection_Name} != null">
+                                                                    <div class="TitleInLineInContents"  th:text="Collection_Name"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Collection_Name}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.source} != null">
+                                                                    <div class="TitleInLineInContents"  th:text="Source"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Source}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.isPartOf} != null">
+                                                                    <div class="TitleInLineInContents"  th:text="IsPartOf"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.IsPartOf}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.links} != null">
+                                                                    <div class="TitleInLineInContents"  th:text="Links"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Links}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.rights_Statement_Media} != null">
+                                                                    <div class="TitleInLineInContents"  th:text="Rights_Statement_Media"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Rights_Statement_Media}"></div>
+                                                                </div>
+                                                                <div class="LineInContents" th:if="${data.rights} != null">
+                                                                    <div class="TitleInLineInContents"  th:text="Rights"></div>
+                                                                    <div class="ContentsInLineInContents" th:text="${l.Rights}"></div>
+                                                                </div>
+                                                            </th:block>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <div class="tab_content" id="programming_content">
+                                                <div id="googleMap"></div>
+                                            </div>
+                                        </div>
+                                        <div style="text-align: right; margin-top: 30px;">
+                                            <button type="button" class="btn" th:if="${session.SEMAIL != null}" th:onclick="|location.href='@{'/admin/insert'}'|">Upload</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <th:block layout:fragments="customCss">
+            <style>
+                .btn{
+                    min-width: 100px !important;
+                    border-radius: 0px !important;
+                }
+                .LineInContents {
+                    width: 98%;
+                    min-height: 50px;
+                    padding-top: 25px;
+                    padding-bottom: 25px;
+                    margin-left: 1%;
+                    margin-right: 1%;
+                    border-bottom: 1px solid #AAAAAA;
+                    clear: both;
+                    overflow: hidden;
+                    line-height: 160%;
+                }
+                #CONTENTS {
+                    width: 100%;
+                    max-width: 1140px;
+                    margin: auto;
+                }
+                .TitleInLineInContents {
+                    width: 235px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    float: left;
+                    color: #212121;
+                    padding-left: 3px;
+                }
+                .ContentsInLineInContents {
+                    width: -webkit-calc(100% - 250px);
+                    width: calc(100% - 250px);
+                    float: left;
+                    display: block;
+                    text-align: justify;
+                    color: #212121;
+                }
+                .TitleInContentsInLineInContents {
+                    margin-top: 3px;
+                    margin-bottom: 3px;
+                    font-weight: 600;
+                    letter-spacing: 1px;
+                    font-size: 32px;
+                    color: #0D47A1;
+                }
+                .blog_item_img{
+                    margin-top: 30px;
+                }
+                /* 탭 전체 스타일 */
+                .tabs {
+                    margin-top: 100px;
+                    padding-bottom: 40px;
+                    background-color: #ffffff;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                    width: 1200px;
+                    margin: 0 auto;}
+
+                /* 탭 스타일 */
+                .tab_item {
+                    width: calc(100%/2);
+                    height: 50px;
+                    border-bottom: 3px solid #333333;
+                    background-color: #f8f8f8;
+                    line-height: 50px;
+                    font-size: 16px;
+                    text-align: center;
+                    color: #333333;
+                    display: block;
+                    float: left;
+                    font-weight: bold;
+                    transition: all 0.2s ease;
+                }
+                .tab_item:hover {
+                    opacity: 0.75;
+                }
+
+                /* 라디오 버튼 UI삭제*/
+                input[name="tab_item"] {
+                    display: none;
+                }
+
+                /* 탭 컨텐츠 스타일 */
+                .tab_content {
+                    display: none;
+                    padding: 40px 40px 0;
+                    clear: both;
+                    overflow: hidden;
+                }
+
+
+                /* 선택 된 탭 콘텐츠를 표시 */
+                #all:checked ~ #all_content,
+                #programming:checked ~ #programming_content,
+                #design:checked ~ #design_content {
+                    display: block;
+                }
+
+                /* 선택된 탭 스타일 */
+                .tabs input:checked + .tab_item {
+                    background-color: #333333;
+                    color: #fff;
+                }
+                #googleMap{
+                    height:500px;
+                    width:100%;
+
+                }
+            </style>
+
+        </th:block>
+
+        <script>
+
+           /* $( document ).ready( function() {
+                $('div:empty').css("display", "none");
+            } );*/
+
+
+           let contentsInLineInContents = document.getElementsByClassName('ContentsInLineInContents');
+           let text = $(".ContentsInLineInContents").text();
+           console.log(text,'어디있니');
+           let contentsInLineInContentsVal = [];
+           /*contentsInLineInContentsVal.push(val);
+           console.log(contentsInLineInContentsVal,'뭐가 들어있니');*/
+
+           for(let i=0; i<contentsInLineInContentsVal.length; i++){
+
+               contentsInLineInContentsVal.put(text);
+               console.log(contentsInLineInContentsVal,'뭐가 들어있니');
+
+               if(contentsInLineInContentsVal[i].text() == null || contentsInLineInContentsVal[i].text() == ''){
+                   console.log(contentsInLineInContentsVal[1].text(),'들어있니');
+                   let LineInContents = $(contentsInLineInContentsVal[i]).parent().find('div');
+                   console.log(LineInContents,'<==LineInContents');
+                   LineInContents.css("display", "none");
+               }
+           }
+
+
+
+
+            //구글 지도 api를 사용해서 위도 경도 값을 불러와서 하단부에 맵 구성
+            function myMap() {
+                const latVal= $('#lat').text();     //javascript에서 데이터베이스에 있는 값을 불러 오기위한 구문
+                                                    //input태그에는 val를 사용하지만 div태그에는 text를 사용
+                const lngVal= $('#lng').text();
+                var NHM_position ={lat:latVal,lng:lngVal};  //변수에 위도 경도값을 넣어서 한번에 사용하려했으나 오류로 사용되지가 않음
+                const mapProp= {    //맵을 만들기위한 기본 틀
+                    center:new google.maps.LatLng(latVal,lngVal),       //맵의 중앙
+                    zoom:17,            //확대정도
+                    mapTypeId: google.maps.MapTypeId.HYBRID,     //위성으로 볼지 지도로 볼지에 대한 타입설정
+                    zoomControl : true,
+                    scrollwheel : false
+                };
+                const map = new google.maps.Map(document.getElementById("googleMap"),mapProp);  //mapProp에 대한 구글 맵을 불러온다
+
+                const marker = new google.maps.Marker({     //마커
+                    position:mapProp.center,        //center
+                    map:map,
+
+                });
+
+            }
+        </script>
+        <footer th:replace="fragments/footer :: footerFragment"></footer>
+
+        <!-- START SCROLL TO TOP  -->
+        <div class="scrollup">
+            <a href="#"><i class="fa fa-chevron-up"></i></a>
+        </div>
+
+        <th:block th:replace="fragments/JavaScripts :: JSFragment"></th:block>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-p2WKYIGpnVzk826XaGd4-Kwv0gqOMHk&callback=myMap">//맵 src api key를 넣으면 됨</script>
+
+
+
+    </body>
+
+
+</html>
+
+

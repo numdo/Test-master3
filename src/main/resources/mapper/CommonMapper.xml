@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	<mapper namespace="com.example.testsearch.mapper.CommonMapper">
+		<select id="getNewCode" parameterType="string" resultType="string">
+			/* db의 pk컬럼명과 db의 테이블명으로 자동으로 증가하는 코드 생성  */
+			SELECT
+			      CASE
+			      WHEN COUNT(1)=0 THEN CONCAT(#{codePattern},'_1')
+			      ELSE
+			         CONCAT(#{codePattern},'_',MAX(CAST(SUBSTRING_INDEX(${codePattern},'_',-1) AS UNSIGNED))+1)
+			      END AS newCode
+			FROM
+			      ${tableName}; 
+		</select>
+	
+	</mapper>

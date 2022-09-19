@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <head th:replace="fragments/head :: headFragment">
+
+    </head>
+
+    <title th:text="${title}"></title>
+
+    <body data-spy="scroll" data-target=".navbar-collapse">
+    <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <div class='preloader' th:replace="fragments/preloader :: preloaderFragment"></div>
+
+    <header th:replace="fragments/header :: headerFragment"></header>
+
+    <main layout:fragment="customContents">
+        <section id="service" class="service sections margin-top-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="head_title text-center">
+
+
+                        </div>
+
+                        <div class="single_service_area  margin-top-80">
+                            <div class="row">
+                                <div id="CONTENTS">
+
+                                    <div class="loginBox">
+                                        <h1>
+                                            <a class="navbar-brand" th:href="@{/}" style="font-size: 40px; margin-bottom: 40px; margin-left: 180px;">
+                                                <strong>KGZ TEST</strong>
+                                            </a>
+                                        </h1>
+                                        <div class="logon applyid" id="input_type_1">
+                                            <p class="tit" style="margin-bottom: 30px; font-size: 25px;">Register</p>
+                                            <form id="frmLogin" name="frmLogin" th:action="@{/user/join}" method="post">
+                                                <input type="hidden" value="" name="CHK_YN" id="CHK_YN"/>
+                                                <div class="applyid_text">
+                                                    <p class="text">Email</p>
+                                                    <p class="chk_btn" id="btnChkId">Duplicate Check</p>
+                                                    <p class="fall">5-20 English case and number only available</p>
+                                                </div>
+                                                <input type="text" id="useremail" name="useremail" style="ime-mode: disabled" placeholder="Email" minlength="5" maxlength="20" required="">
+
+                                                <div class="applyid_text">
+                                                    <p class="text">PW</p>
+                                                    <p class="fall">8-16 use English, numbers, and special characters.</p>
+                                                </div>
+                                                <input type="password" id="userpw" name="userpw" placeholder="Password" minlength="8" maxlength="16" required="">
+
+                                                <div class="applyid_text">
+                                                    <p class="text">Name</p>
+                                                    <p class="fall">Please enter</p>
+                                                </div>
+                                                <input type="text" id="username" name="username" placeholder="Name" minlength="2" maxlength="20" required="">
+
+                                                <div class="applyid_text">
+                                                    <p class="text">Phone</p>
+                                                    <p class="fall">Please lengthen this text to 5-15 characters.</p>
+                                                </div>
+                                                <input type="text" id="phone" name="phone" style="ime-mode: disabled" placeholder="Phone" minlength="5" maxlength="15" required="">
+
+                                                <div class="btnC"><button type="submit" class="btn btnB2 btnB2_hover type3">Register ID</button></div>
+                                            </form>
+                                        </div>
+                                        <p id="err_message"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <th:block layout:fragments="customCss">
+        <style>
+
+            *{
+                box-sizing: border-box;
+            }
+
+            #CONTENTS{
+                max-width: 700px;
+                min-height: 615px;
+                width: 100%;
+                margin: auto;
+            }
+
+
+            .loginBox {
+                background: #fff;
+                border-radius: 5px;
+                padding: 10px 40px 20px 40px;
+            }
+
+            .applyid_text {
+                position: relative;
+                padding: 10px 0;
+            }
+
+            .applyid_text::after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+
+            .applyid_text .text {
+                font-size: 16px;
+                float: left;
+            }
+
+            .loginBox > div {
+                float: left;
+                width: 100%;
+                text-align: left;
+                box-sizing: border-box;
+            }
+
+            .login > div {
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+            }
+
+            body, h1, h2, h3, h4, th, td, input, select, textarea, button {
+                line-height: 1.5em;
+                font-weight: 400;
+            }
+
+            .applyid_text .chk_btn {
+                display: inline-block;
+                position: absolute;
+                right: 0;
+                padding: 5px 10px;
+                bottom: -35px;
+                color: #fff;
+                background-color: rgba(231,35,50,0.7);
+                transition: 0.3s;
+                font-size: 13px;
+            }
+
+            .applyid_text .fall {
+                font-size: 13px;
+                float: right;
+                color: #E72332;
+            }
+
+            .loginBox .btnC {
+                margin-top: 50px;
+            }
+
+            .btnC {
+                margin-top: 25px;
+                text-align: center;
+            }
+
+            .btn.btnB2 {
+                background-color: rgba(231,35,50,0.7);
+            }
+
+            .btnB2_hover {
+                transition: 0.3s;
+            }
+
+            .container_login h2 {
+                text-align: center;
+                margin-bottom: 30px;
+                margin-top: 30px;
+            }
+
+            .container_login a {
+                text-decoration: none;
+                color: #1e1e5c;
+            }
+
+            .form-control input {
+                background-color: transparent;
+                border: 0;
+                /*border-bottom: 2px #fff solid;*/
+                display: block;
+                width: 100%;
+                padding: 15px 0;
+                font-size: 18px;
+                color: #fff;
+            }
+
+            .form-control input:focus,
+            .form-control input:valid {
+                outline: 0;
+                border-bottom-color: lightblue;
+            }
+
+            .form-control label {
+                position: absolute;
+                top: 15px;
+                left: 0;
+                pointer-events: none;
+            }
+
+            form p {
+                /*letter-spacing: 0.3rem;  글자 간격 */
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .form-control label span {
+                display: inline-block;
+                font-size: 18px;
+                min-width: 5px;
+                transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            }
+
+            .form-control input:focus + label span,
+            .form-control input:valid + label span {
+                color: lightblue;
+                transform: translateY(-30px);
+            }
+            .btn {
+                cursor: pointer;
+                display: inline-block;
+                width: 100%;
+                background: rgb(239 199 29);
+                padding: 15px;
+                font-family: inherit;
+                font-size: 16px;
+                border: 0;
+                border-radius: 2px;
+                margin-bottom: 15px;
+            }
+
+            .btn:focus {
+                outline: 0;
+            }
+
+            .btn:active {
+                transform: scale(0.98);
+            }
+            input::placeholder {
+                color: white;
+            }
+
+            .form-control input:focus, .form-control input:valid {
+                outline: 0;
+                border-bottom-color: #131327 !important;
+            }
+
+            #input_type_1 input[type="text"], #input_type_1 input[type="password"] {
+                width: 100%;
+                height: 40px;
+            }
+
+            #input_type_1 input[type='text'], #input_type_1 input[type='password'], #input_type_1 input[type='file'], #input_type_1 textarea, #input_type_1 select {
+                display: inline-block;
+                padding: 0 10px;
+                width: 100%;
+                line-height: 26px;
+                box-sizing: border-box;
+                background: none;
+                border-radius: 0;
+                color: black;
+                border: none;
+                border-bottom: 1px solid rgba(231, 35, 50, 0.3);
+                transition: 0.3s;
+            }
+
+            nput[type='text'], input[type='password'], input[type='file'], textarea, select {
+                display: inline-block;
+                padding: 0 10px;
+                width: 100%;
+                line-height: 26px;
+                /* height: 30px; */
+                box-sizing: border-box;
+                border: 1px solid #c8c8c8;
+                background: #fff;
+                border-radius: 0;
+                color: #646464;
+            }
+
+            #input_type_1 input[type="text"], #input_type_1 input[type="password"] {
+                width: 100%;
+                height: 40px;
+            }
+            #input_type_1 input[type='text'], #input_type_1 input[type='password'], #input_type_1 input[type='file'], #input_type_1 textarea, #input_type_1 select {
+                display: inline-block;
+                padding: 0 10px;
+                width: 100%;
+                line-height: 26px;
+                box-sizing: border-box;
+                background: none;
+                border-radius: 0;
+                color: black;
+                border: none;
+                border-bottom: 1px solid rgba(231, 35, 50, 0.3);
+                transition: 0.3s;
+            }
+            input[type='text'], input[type='password'], input[type='file'], textarea, select {
+                display: inline-block;
+                padding: 0 10px;
+                width: 100%;
+                line-height: 26px;
+                /* height: 30px; */
+                box-sizing: border-box;
+                border: 1px solid #c8c8c8;
+                background: #fff;
+                border-radius: 0;
+                color: #646464;
+            }
+            body, h1, h2, h3, h4, th, td, input, select, textarea, button {
+                line-height: 1.5em;
+                font-weight: 400;
+            }
+
+            img, input, select, textarea, button {
+                vertical-align: middle;
+            }
+
+
+        </style>
+    </th:block>
+
+    <th:block layout:fragment="customScript">
+        <script>
+            const _CONTEXT_PATH = '';
+
+            $(document).ready(function () {
+                $('#btnChkId').click(function () {
+                    console.log('클릭됐나유');
+                    var useremail = $('#useremail').val();
+
+                    if ($.trim($('#useremail').val()) == '') {
+                        alert('Please enter your Email.');
+                        $('#useremail').focus();
+                    } else {
+                        $('input[name=useremail]').attr('value', useremail);
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/user/idCheck',
+                            data: {useremail: useremail},
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log(data, 'data');
+
+                                if (data) {
+                                    $('#useremail').attr('readonly', true);
+                                    /* console.log('Y') */
+                                    $('#CHK_YN').val('Y');
+                                    /* alert("사용가능합니다."); */
+                                    alert("It's possible to use.");
+                                } else {
+                                    /* console.log('N') */
+                                    alert('The ID being used. Please enter it again.');
+                                    $('#CHK_YN').val('N');
+                                    $('#useremail').val('');
+                                    $('#useremail').focus();
+                                }
+                            }, //success
+                            error: function (e) {
+                                console.log(e);
+                            },
+                        }); //ajax
+                    }
+                });
+
+            });
+
+            function submit() {
+                alert('submit Complete');
+            }
+
+            function testMj2() {
+                var re = /^[a-zA-Z0-9]{5,20}$/; // 아이디와 패스워드가 적합한지 검사할 정규식
+                /*var reg_pw = /^.*(?=.{8,16})(?=.*[0-9])(?=.*[a-zA-Z]).*$/; */
+                /*var reg_pw = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;*/
+                var reg_pw = /^.*(?=^.{8,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+                var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+                // 이메일이 적합한지 검사할 정규식
+
+                var email = document.getElementById('useremail');
+                var pw = document.getElementById('userpw');
+
+                /*var form = document.getElementById("frmLogin");*/
+                /*console.log("패스워드 길이:: "+pw.value.length);*/
+
+                if (!check(re, email, 'Please enter only 5-20 alphanumeric characters.')) {
+                    //	    if(!check(re,id,"아이디는 5~20자의 영문 소문자와 숫자로만 입력")) {
+                    return false;
+                }
+
+                /*if(!check(reg_pw,pw,"패스워드는 8~16자의 영문 대소문자와 숫자로만 입력")) {
+                    return false;
+                  }*/
+
+                if (pw.value.match('/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~,-])|([!,@,#,$,%,^,&,*,?,_,~,-].*[a-zA-Z0-9])/')) {
+                    //	    	alert("패스워드는 8~16자의 영문 대소문자와 숫자로만 입력");
+                    alert('Please enter a password using only 8-16 letters.');
+                    pw.value = '';
+                    pw.focus();
+                    return false;
+                } else {
+                    if (pw.value.length < 8 || pw.value.length > 17) {
+                        alert('Password can only be used between 8 and 16 digits.');
+                        //	    		alert("패스워드는 8~16자리까지만 사용 가능합니다.");
+                        pw.value = '';
+                        pw.focus();
+                        return false;
+                    }
+                }
+
+
+                if ($('#CHK_YN').val() == 'N' || $('#CHK_YN').val() == '') {
+                    alert('Please check ID duplicate.');
+                    //		alert("아이디중복검사 를 해주세요");
+                    return;
+                }
+
+                if ($('#useremail').val() == '') {
+                    alert('Please enter your email.');
+                    return;
+                }
+
+                if ($('#userpw').val() == '') {
+                    alert('Please enter a password.');
+                    return;
+                }
+
+                if ($('#username').val() == '') {
+                    alert('Please enter your name.');
+                    return;
+                }
+
+                var url = '';
+                var frm = document.frmLogin;
+                frm.action = '/Apply_process/';
+                frm.method = 'post';
+                frm.submit();
+            }
+
+            function check(re, what, message) {
+                if (re.test(what.value)) {
+                    return true;
+                }
+                alert(message);
+                what.value = '';
+                what.focus();
+                //return false;
+            }
+
+        </script>
+
+    </th:block>
+
+    <footer th:replace="fragments/footer :: footerFragment"></footer>
+
+    <!-- START SCROLL TO TOP  -->
+    <div class="scrollup">
+        <a href="#"><i class="fa fa-chevron-up"></i></a>
+    </div>
+
+    <th:block th:replace="fragments/JavaScripts :: JSFragment"></th:block>
+
+    </body>
+</html>

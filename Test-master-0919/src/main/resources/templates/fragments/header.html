@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <!-- start: Header -->
+  <header id="main_menu" class="header navbar-fixed-top" th:fragment="headerFragment">
+      <div class="main_menu_bg">
+          <div class="container">
+              <div class="row">
+                  <div class="nave_menu">
+                      <nav class="navbar navbar-default" id="navmenu">
+                          <div class="container-fluid">
+                              <!-- Brand and toggle get grouped for better mobile display -->
+                              <div class="navbar-header">
+                                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                      <span class="sr-only">Toggle navigation</span>
+                                      <span class="icon-bar"></span>
+                                      <span class="icon-bar"></span>
+                                      <span class="icon-bar"></span>
+                                  </button>
+                                  <a class="navbar-brand" th:href="@{/}">
+                                      <p class="logo"
+                                         style="position: absolute;
+                                         top: -3px;
+                                         font-size: 27px;
+                                         display: block;
+                                         font-weight: 1000;
+                                         color: #000000;
+                                         font-family: 'Pretendard', sans-serif;">
+                                          K-CRMS
+                                          <span style="font-size: 14px; display: block; font-size: 15px; font-weight: 300;">KYRGYZ CULTURAL RESOURCE MANAGEMENT SYSTEM</span>
+                                      </p>
+                                      <!--<img src="assets/images/logo.png"/>-->
+                                  </a>
+                              </div>
+
+                              <!-- Collect the nav links, forms, and other content for toggling -->
+
+                              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                  <ul class="nav navbar-nav navbar-right" style="font-family: 'Pretendard', sans-serif; font-size: 16px;">
+                                      <li><a th:href="@{/}">HOME</a></li>
+                                      <li><a th:href="@{/test/dataSearchResult?searchValue=}">COLLECTIONS</a></li>
+                                      <li><a th:onclick="showTotalStatistics_Popup()" style="cursor:pointer">STATISTICS</a> </li>
+                                      <li th:if="${session.SEMAIL == null}"><a th:href="@{/user/login}">LOGIN</a></li>
+                                      <li th:unless="${session.SEMAIL == null}"><a th:href="@{/user/logout}">LOGOUT</a></li>
+                                      <li th:if="${session.SEMAIL == null}" ><a th:href="@{/user/join}">JOIN</a></li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </nav>
+                  </div>
+                  <script>
+                      function showTotalStatistics_Popup(){
+                          const url = "/test/totalStatisticsPopup";
+                          const winWidth = 1000;
+                          const winHeight = 700;
+                          const left = 0;
+                          const top = 0;
+                          const popupOption = "width=" + winWidth + ", height=" + winHeight + ", left=" + left + ", top=" +top;
+                          window.open(url, "Staticstical Info", popupOption);
+                      }
+
+                  </script>
+              </div>
+          </div>
+      </div>
+  </header> <!--End of header -->
+
+
+
+</html>
